@@ -24,18 +24,7 @@ namespace ProgGraficaTareas
         private Matrix4 model;
 
         Televisor televisor;
-        Televisor televisor2;
-        Televisor televisor3;
-        Televisor televisor4;
-        Televisor televisor5;
-        Televisor televisor6;
-        Televisor televisor7;
-        Televisor televisor8;
-        Televisor televisor9;
-
-        Cara techo1;
-
-
+ 
         Objeto objeto1;
         Objeto objeto2;
         Objeto objeto3;
@@ -79,12 +68,6 @@ namespace ProgGraficaTareas
 
             televisor = new Televisor(shader, new Vector3(0.0f, 0.0f, 0.0f));
 
-           
-             this.techo1 = new Cara(shader, "Techo 1");
-            techo1.add( "1", new Punto(-0.15f, 0.10f, -0.15f));
-            techo1.add("2", new Punto(-0.15f, 0.20f, 0.0f));
-            techo1.add("3", new Punto(0.15f, 0.20f, 0.0f));
-            techo1.add( "4",new Punto(0.15F, 0.10f, -0.15f));
 
             Cara baseFlorero = new Cara(shader, "Base Florero");
             baseFlorero.add("1", new Punto(0.15f, 0.10f, -0.10f));
@@ -203,9 +186,7 @@ namespace ProgGraficaTareas
             shader.Use();
 
              televisor.dibujar();
-          
 
-          //  this.techo1.dibujar();
 
            this.objeto1.Dibujar();
             this.objeto2.Dibujar();

@@ -46,7 +46,7 @@ namespace ProgGraficaTareas
         {
             vertices.Add(key, punto);
         }
-        public float[] CopyToArray()
+        public float[] Arrayvertice()
         {
             float[] result = new float[vertices.Count * 3];
             int pos = 0;
@@ -69,7 +69,7 @@ namespace ProgGraficaTareas
 
 
         public void dibujar() { 
-            float[] array = CopyToArray();
+            float[] array = Arrayvertice();
             shader.SetVector3("objectColor", new Vector3(0.0f, 0.0f, 0.0f));
             GL.BufferData(BufferTarget.ArrayBuffer, array.Length * sizeof(float), array, BufferUsageHint.StaticDraw);
             GL.DrawArrays(PrimitiveType.LineLoop, 0, vertices.Count);
