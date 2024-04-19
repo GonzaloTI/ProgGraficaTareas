@@ -6,6 +6,8 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.IO;
+using OpenTK.Windowing.GraphicsLibraryFramework; // Asegúrate de agregar esta referencia
+
 
 namespace ProgGraficaTareas
 {
@@ -29,6 +31,17 @@ namespace ProgGraficaTareas
         Objeto objeto2;
         Objeto objeto3;
 
+        Escena escena1;
+
+
+
+        private Camera _camera;
+
+        private bool _firstMove = true;
+
+        private Vector2 _lastPos;
+
+        private double _time;
         protected override void OnLoad()
         {
             base.OnLoad();
@@ -50,9 +63,9 @@ namespace ProgGraficaTareas
             shader = new Shader("../../../Shaders/shader.vert", "../../../Shaders/shader.frag");
 
          
-           projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(20.0f), Size.X / (float)Size.Y, 0.1f, 60.0f);
+           projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(20.0f), Size.X / (float)Size.Y, 0.1f, 20.0f);
          
-            view = Matrix4.CreateTranslation(0.0f, 0.0f, -4.0f);
+            view = Matrix4.CreateTranslation(0.0f, 0.0f, -3.0f);
           // projection = Matrix4.CreateOrthographic(2.0f, 2.0f, 0.1f, 100.0f); // Tamaño de la proyección ortogonal en el plano XY
             model = Matrix4.Identity * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(30.0f));
 
@@ -64,8 +77,8 @@ namespace ProgGraficaTareas
             shader.Use();
             var move = Matrix4.Identity;
             move = move * Matrix4.CreateTranslation(0f, 0f, 0f);
-            shader.SetMatrix4("origen", move);
-
+           shader.SetMatrix4("origen", move);
+            
             televisor = new Televisor(shader, new Vector3(0.0f, 0.0f, 0.0f));
 
 
@@ -120,7 +133,7 @@ namespace ProgGraficaTareas
             caraeq2.add("3", new Punto(-0.45f, 0.01f, -0.0f));
             caraeq2.add("4", new Punto(-0.55f, 0.01f, -0.0f));
 
-         Cara carasupp = new Cara(shader, "superior");
+            Cara carasupp = new Cara(shader, "superior");
             carasupp.add("1", new Punto(-0.55f,  0.01f, -0.10f));
             carasupp.add("2", new Punto(-0.45f, 0.01f, -0.10f));
             carasupp.add("3", new Punto(-0.45f, 0.01f, -0.0f));
@@ -169,28 +182,57 @@ namespace ProgGraficaTareas
             this.objeto3.Add(carasupp2);
             this.objeto3.Add(carainf2);
 
+            Parte parte1 = new Parte(shader,"parte1");
+
+            parte1.add("1",carainf2);
+
+            Parte parte2 = new Parte(shader, "parte2");
+            parte2.add("1", carasupp2);
+
+
+            Objeto1 objetonew = new Objeto1(shader, "obj1");
+
+            objetonew.add("part1", parte1);
+            objetonew.add("part2", parte2);
+
+            this.escena1 = new Escena(shader, "escena1");
+
+            escena1.add("1", objetonew);    
 
 
 
 
+          
+            _camera = new Camera(Vector3.UnitZ, Size.X / (float)Size.Y);
+          
         }
 
         protected override void OnRenderFrame(FrameEventArgs args)
         {
             base.OnRenderFrame(args);
-
+            _time += 0.0 * args.Time;
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Enable(EnableCap.DepthTest);
             GL.BindVertexArray(vertexArrayObject);
             shader.Use();
 
-             televisor.dibujar();
+
+           var model = Matrix4.Identity * Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(_time));
+           shader.SetMatrix4("model", model);
+           shader.SetMatrix4("view", _camera.GetViewMatrix());
+           shader.SetMatrix4("projection", _camera.GetProjectionMatrix());
+
+
+
+          //  televisor.dibujar();
 
 
            this.objeto1.Dibujar();
-            this.objeto2.Dibujar();
-            this.objeto3.Dibujar();
+         //   this.objeto2.Dibujar();
+           // this.objeto3.Dibujar();
+
+            this.escena1.dibujar(); 
 
             Context.SwapBuffers();
         }
@@ -210,6 +252,70 @@ namespace ProgGraficaTareas
             GL.UseProgram(0); 
             base.OnUnload();
         }
+        protected override void OnUpdateFrame(FrameEventArgs e)
+        {
+            base.OnUpdateFrame(e);
+           
+            if (!IsFocused) // Check to see if the window is focused
+            {
+                return;
+            }
 
+            var input = KeyboardState;
+
+            if (input.IsKeyDown(Keys.Escape))
+            {
+                Close();
+            }
+
+            const float cameraSpeed = 1.0f;
+            const float sensitivity = 0.2f;
+
+            if (input.IsKeyDown(Keys.W))
+            {
+                _camera.Position += _camera.Front * cameraSpeed * (float)e.Time; // Forward
+            }
+
+            if (input.IsKeyDown(Keys.S))
+            {
+                _camera.Position -= _camera.Front * cameraSpeed * (float)e.Time; // Backwards
+            }
+            if (input.IsKeyDown(Keys.A))
+            {
+                _camera.Position -= _camera.Right * cameraSpeed * (float)e.Time; // Left
+            }
+            if (input.IsKeyDown(Keys.D))
+            {
+                _camera.Position += _camera.Right * cameraSpeed * (float)e.Time; // Right
+            }
+            if (input.IsKeyDown(Keys.Space))
+            {
+                _camera.Position += _camera.Up * cameraSpeed * (float)e.Time; // Up
+            }
+            if (input.IsKeyDown(Keys.LeftShift))
+            {
+                _camera.Position -= _camera.Up * cameraSpeed * (float)e.Time; // Down
+            }
+
+            // Get the mouse state
+            var mouse = MouseState;
+
+            if (_firstMove) // This bool variable is initially set to true.
+            {
+                _lastPos = new Vector2(mouse.X, mouse.Y);
+              //  _firstMove = false;
+            }
+            else
+            {
+                // Calculate the offset of the mouse position
+                var deltaX = mouse.X - _lastPos.X;
+                var deltaY = mouse.Y - _lastPos.Y;
+                _lastPos = new Vector2(mouse.X, mouse.Y);
+
+                // Apply the camera pitch and yaw (we clamp the pitch in the camera class)
+                _camera.Yaw += deltaX * sensitivity;
+                _camera.Pitch -= deltaY * sensitivity; // Reversed since y-coordinates range from bottom to top
+            }
+        }
     }
 }

@@ -34,13 +34,16 @@ namespace ProgGraficaTareas
             this.name = nombre;
             this.vertices = new Dictionary<string, Punto>();
 
-            foreach (KeyValuePair<string, Punto> k in vertices)
+            foreach (KeyValuePair<string, Punto> k in listpunto)
             {
                 this.vertices.Add(k.Key, k.Value);
             }
         }
 
-
+        public String getName()
+        {
+           return this.name;
+        }
 
         public void add(string key, Punto punto)
         {
@@ -59,10 +62,8 @@ namespace ProgGraficaTareas
                 result[pos] = k.Value.z;
                 pos++;
             }
-
-           
-
             return result;
+
         }
 
 
