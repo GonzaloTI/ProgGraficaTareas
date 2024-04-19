@@ -1,37 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ProgGraficaTareas
 {
-
-
     internal class Objeto
     {
-        private String nombre;
-        List<Cara> Listcaras;
+        Dictionary<string, Parte> vertices = new Dictionary<string, Parte>();
 
-        public Objeto(string nombre)
+        Shader shader;
+
+        String name;
+
+        public Objeto(Shader shader, String nombre)
         {
-            this.nombre = nombre;
-  
-            Listcaras = new List<Cara>();
+            this.shader = shader;
+            this.name = nombre;
+            this.vertices = new Dictionary<string, Parte>();// cuando se crea el objeto solo con el chaser y el nombre
         }
 
-        public void Add(Cara cara)
+        public Objeto(Shader shader, String nombre, Dictionary<string, Parte> listparte)
         {
-            Listcaras.Add(cara);
-        }
+            this.shader = shader;
+            this.name = nombre;
+            this.vertices = new Dictionary<string, Parte>();
 
-        public void Dibujar()
-        {
-            foreach (Cara k in Listcaras)
+            foreach (KeyValuePair<string, Parte> k in listparte)
             {
-                k.dibujar();
+                this.vertices.Add(k.Key, k.Value);
             }
+        }
+
+
+
+        public void add(string key, Parte parte)
+        {
+            vertices.Add(key, parte);
+        }
+        public void ArrayverticeTostring()
+        {
+
+            String listcaras = "";
+            foreach (KeyValuePair<string, Parte> k in vertices)
+            {
+                listcaras += k.Value.ArrayverticeTostring() + " ";
+
+            }
+            Console.WriteLine(listcaras);
+
+        }
+
+
+
+
+        public void dibujar()
+        {
+
+            foreach (KeyValuePair<string, Parte> k in vertices)
+            {
+                k.Value.dibujar();
+            }
+
         }
 
     }

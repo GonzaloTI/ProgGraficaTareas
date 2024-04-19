@@ -8,7 +8,7 @@ namespace ProgGraficaTareas
 {
     internal class Escena
     {
-        Dictionary<string, Objeto1> vertices = new Dictionary<string, Objeto1>();
+        Dictionary<string, Objeto> vertices = new Dictionary<string, Objeto>();
 
         Shader shader;
 
@@ -18,16 +18,16 @@ namespace ProgGraficaTareas
         {
             this.shader = shader;
             this.name = nombre;
-            this.vertices = new Dictionary<string, Objeto1>();// cuando se crea el objeto solo con el chaser y el nombre
+            this.vertices = new Dictionary<string, Objeto>();// cuando se crea el objeto solo con el chaser y el nombre
         }
 
-        public Escena(Shader shader, String nombre, Dictionary<string, Objeto1> listparte)
+        public Escena(Shader shader, String nombre, Dictionary<string, Objeto> listparte)
         {
             this.shader = shader;
             this.name = nombre;
-            this.vertices = new Dictionary<string, Objeto1>();
+            this.vertices = new Dictionary<string, Objeto>();
 
-            foreach (KeyValuePair<string, Objeto1> k in listparte)
+            foreach (KeyValuePair<string, Objeto> k in listparte)
             {
                 this.vertices.Add(k.Key, k.Value);
             }
@@ -35,13 +35,13 @@ namespace ProgGraficaTareas
 
 
 
-        public void add(string key, Objeto1 parte)
+        public void add(string key, Objeto parte)
         {
             vertices.Add(key, parte);
         }
         public void ArrayverticeTostring()
         {
-            foreach (KeyValuePair<string, Objeto1> k in vertices)
+            foreach (KeyValuePair<string, Objeto> k in vertices)
             {
                 k.Value.ArrayverticeTostring();
 
@@ -56,7 +56,7 @@ namespace ProgGraficaTareas
         public void dibujar()
         {
 
-            foreach (KeyValuePair<string, Objeto1> k in vertices)
+            foreach (KeyValuePair<string, Objeto> k in vertices)
             {
                 k.Value.dibujar();
             }

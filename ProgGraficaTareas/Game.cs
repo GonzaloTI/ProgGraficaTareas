@@ -26,10 +26,6 @@ namespace ProgGraficaTareas
         private Matrix4 model;
 
         Televisor televisor;
- 
-        Objeto objeto1;
-        Objeto objeto2;
-        Objeto objeto3;
 
         Escena escena1;
 
@@ -110,15 +106,7 @@ namespace ProgGraficaTareas
             baseinf.add("3", new Punto(0.15f, 0.10f, -0.13f));
             baseinf.add("4", new Punto(0.13f, 0.10f, -0.13f));
 
-            // Crea un objeto para contener todas las caras del florero
-            this.objeto1 = new Objeto("Florero");
-
-            // Añade cada cara al objeto del florero
-            objeto1.Add(baseFlorero);
-            objeto1.Add(baseFlorero2);
-            objeto1.Add(basesup);
-
-            this.objeto2 = new Objeto("equiposemusica");
+      
 
             Cara caraeq = new Cara(shader, "Base equipo"); 
             caraeq.add("1", new Punto(-0.55f, -0.20f, -0.10f));
@@ -145,12 +133,6 @@ namespace ProgGraficaTareas
             carainf.add("4", new Punto(-0.45f, -0.20f, -0.0f));
              carainf.add("3", new Punto(-0.55f, -0.20f, -0.0f));
 
-             this.objeto2.Add(caraeq);
-            this.objeto2.Add(caraeq2);
-            this.objeto2.Add(carainf);
-            this.objeto2.Add(carasupp);
-
-            this.objeto3 = new Objeto("equiposemusica 2");
 
             Cara caraeqdelante2 = new Cara(shader, "Base equipo");
             caraeqdelante2.add("1", new Punto(0.55f, -0.20f, -0.10f));
@@ -177,23 +159,32 @@ namespace ProgGraficaTareas
             carainf2.add("4", new Punto(0.45f, -0.20f, -0.0f));
             carainf2.add("3", new Punto(0.55f, -0.20f, -0.0f));
 
-            this.objeto3.Add(caraeqdelante2);
-            this.objeto3.Add(caraeqatras2);
-            this.objeto3.Add(carasupp2);
-            this.objeto3.Add(carainf2);
-
-            Parte parte1 = new Parte(shader,"parte1");
-
+            Parte parte1 = new Parte(shader,"parte1");  //parlante 1
             parte1.add("1",carainf2);
+            parte1.add("2", carasupp2);
+            parte1.add("3", caraeqatras2);
+            parte1.add("4", caraeqdelante2);
 
-            Parte parte2 = new Parte(shader, "parte2");
-            parte2.add("1", carasupp2);
+
+            Parte parte2 = new Parte(shader, "parte2");  //parlante 2
+            parte2.add("1", carasupp);
+            parte2.add("2", carainf);
+            parte2.add("3", caraeq2);
+            parte2.add("4", caraeq);
+
+          
+            Parte parte3 = new Parte(shader, "parte3");  //florero
+            parte3.add("1", basesup);
+            parte3.add("2", baseFlorero2);
+            parte3.add("3", baseFlorero);
+            parte3.add("4", baseinf);
 
 
-            Objeto1 objetonew = new Objeto1(shader, "obj1");
+            Objeto objetonew = new Objeto(shader, "obj1");
 
             objetonew.add("part1", parte1);
             objetonew.add("part2", parte2);
+            objetonew.add("part3", parte3);
 
             this.escena1 = new Escena(shader, "escena1");
 
@@ -204,7 +195,8 @@ namespace ProgGraficaTareas
 
           
             _camera = new Camera(Vector3.UnitZ, Size.X / (float)Size.Y);
-          
+          //
+
         }
 
         protected override void OnRenderFrame(FrameEventArgs args)
@@ -225,10 +217,8 @@ namespace ProgGraficaTareas
 
 
 
-          //  televisor.dibujar();
-
-
-           this.objeto1.Dibujar();
+            televisor.dibujar();
+          // this.objeto1.Dibujar();
          //   this.objeto2.Dibujar();
            // this.objeto3.Dibujar();
 
