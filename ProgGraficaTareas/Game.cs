@@ -8,6 +8,7 @@ using OpenTK.Mathematics;
 using System.IO;
 using OpenTK.Windowing.GraphicsLibraryFramework; // Asegúrate de agregar esta referencia
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ProgGraficaTareas
 {
@@ -79,7 +80,9 @@ namespace ProgGraficaTareas
 
             Punto punto1 = new Punto(0.15f, 0.10f, -0.10f);
 
-            Cara baseFlorero = new Cara(shader, "Base Florero");
+            Vector3 origen = new Vector3(0.0f, 0.0f, 0.0f);
+
+            Cara baseFlorero = new Cara(shader, "Base Florero",origen);
             baseFlorero.add("1", new Punto(0.15f, 0.10f, -0.10f));
             baseFlorero.add("2", new Punto(0.17f, 0.20f, -0.10f));
             baseFlorero.add("3", new Punto(0.17f, 0.25f, -0.10f));
@@ -87,7 +90,8 @@ namespace ProgGraficaTareas
             baseFlorero.add("5", new Punto(0.10f, 0.20f, -0.10f));
             baseFlorero.add("6", new Punto(0.13f, 0.10f, -0.10f));
 
-            Cara baseFlorero2 = new Cara(shader, "Base Florero 2");
+           
+            Cara baseFlorero2 = new Cara(shader, "Base Florero 2", origen);
             baseFlorero2.add("1", new Punto(0.15f, 0.10f, -0.13f));
             baseFlorero2.add("2", new Punto(0.17f, 0.20f, -0.13f));
             baseFlorero2.add("3", new Punto(0.17f, 0.25f, -0.13f));
@@ -95,13 +99,13 @@ namespace ProgGraficaTareas
             baseFlorero2.add("5", new Punto(0.10f, 0.20f, -0.13f));
             baseFlorero2.add("6", new Punto(0.13f, 0.10f, -0.13f));
 
-            Cara basesup = new Cara(shader, "Base sup Florero");
+            Cara basesup = new Cara(shader, "Base sup Florero", origen);
             basesup.add("1", new Punto(0.17f, 0.25f, -0.13f));
             basesup.add("2", new Punto(0.10f, 0.25f, -0.13f));
             basesup.add("3", new Punto(0.17f, 0.25f, -0.10f));
             basesup.add("4", new Punto(0.10f, 0.25f, -0.10f));
 
-            Cara baseinf = new Cara(shader, "Base inf Florero");
+            Cara baseinf = new Cara(shader, "Base inf Florero", origen);
             baseinf.add("1", new Punto(0.15f, 0.10f, -0.10f));
             baseinf.add("2", new Punto(0.13f, 0.10f, -0.10f));
             baseinf.add("3", new Punto(0.15f, 0.10f, -0.13f));
@@ -109,52 +113,52 @@ namespace ProgGraficaTareas
 
       
 
-            Cara caraeq = new Cara(shader, "Base equipo"); 
+            Cara caraeq = new Cara(shader, "Base equipo", origen); 
             caraeq.add("1", new Punto(-0.55f, -0.20f, -0.10f));
             caraeq.add("2", new Punto(-0.45f, -0.20f, -0.10f));
             caraeq.add("3", new Punto(-0.45f, 0.01f, -0.10f));
             caraeq.add("4", new Punto(-0.55f, 0.01f, -0.10f));
 
 
-            Cara caraeq2 = new Cara(shader, "Base equipo 2");
+            Cara caraeq2 = new Cara(shader, "Base equipo 2", origen);
             caraeq2.add("1", new Punto(-0.55f, -0.20f, -0.0f));
             caraeq2.add("2", new Punto(-0.45f, -0.20f, -0.0f));
             caraeq2.add("3", new Punto(-0.45f, 0.01f, -0.0f));
             caraeq2.add("4", new Punto(-0.55f, 0.01f, -0.0f));
 
-            Cara carasupp = new Cara(shader, "superior");
+            Cara carasupp = new Cara(shader, "superior", origen);
             carasupp.add("1", new Punto(-0.55f,  0.01f, -0.10f));
             carasupp.add("2", new Punto(-0.45f, 0.01f, -0.10f));
             carasupp.add("3", new Punto(-0.45f, 0.01f, -0.0f));
             carasupp.add("4", new Punto(-0.55f, 0.01f, -0.0f));
 
-            Cara carainf = new Cara(shader, "inferior");
+            Cara carainf = new Cara(shader, "inferior", origen);
             carainf.add("1", new Punto(-0.55f, -0.20f, -0.10f));
             carainf.add("2", new Punto(-0.45f, -0.20f, -0.10f));
             carainf.add("4", new Punto(-0.45f, -0.20f, -0.0f));
              carainf.add("3", new Punto(-0.55f, -0.20f, -0.0f));
 
 
-            Cara caraeqdelante2 = new Cara(shader, "Base equipo");
+            Cara caraeqdelante2 = new Cara(shader, "Base equipo", origen);
             caraeqdelante2.add("1", new Punto(0.55f, -0.20f, -0.10f));
             caraeqdelante2.add("2", new Punto(0.45f, -0.20f, -0.10f));
             caraeqdelante2.add("3", new Punto(0.45f, 0.01f, -0.10f));
             caraeqdelante2.add("4", new Punto(0.55f, 0.01f, -0.10f));
 
 
-            Cara caraeqatras2 = new Cara(shader, "Base equipo 2");
+            Cara caraeqatras2 = new Cara(shader, "Base equipo 2", origen)  ;
             caraeqatras2.add("1", new Punto(0.55f, -0.20f, -0.0f));
             caraeqatras2.add("2", new Punto(0.45f, -0.20f, -0.0f));
             caraeqatras2.add("3", new Punto(0.45f, 0.01f, -0.0f));
             caraeqatras2.add("4", new Punto(0.55f, 0.01f, -0.0f));
 
-            Cara carasupp2 = new Cara(shader, "superior");
+            Cara carasupp2 = new Cara(shader, "superior", origen);
             carasupp2.add("1", new Punto(0.55f, 0.01f, -0.10f));
             carasupp2.add("2", new Punto(0.45f, 0.01f, -0.10f));
             carasupp2.add("3", new Punto(0.45f, 0.01f, -0.0f));
             carasupp2.add("4", new Punto(0.55f, 0.01f, -0.0f));
 
-            Cara carainf2 = new Cara(shader, "inferior");
+            Cara carainf2 = new Cara(shader, "inferior", origen);
             carainf2.add("1", new Punto(0.55f, -0.20f, -0.10f));
             carainf2.add("2", new Punto(0.45f, -0.20f, -0.10f));
             carainf2.add("4", new Punto(0.45f, -0.20f, -0.0f));
@@ -191,7 +195,12 @@ namespace ProgGraficaTareas
 
             escena1.add("1", objetonew);
 
-            string json = JsonSerializer.Serialize(escena1);
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                WriteIndented = true // Opcional: para una salida con formato legible
+            };
+            string json = JsonSerializer.Serialize(escena1, options);
 
             // Imprimir JSON resultante
             Console.WriteLine(json);

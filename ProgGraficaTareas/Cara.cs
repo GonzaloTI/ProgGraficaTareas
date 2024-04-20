@@ -22,11 +22,13 @@ namespace ProgGraficaTareas
 
        public String name { get; set; }
 
+        public Vector3 origen;
         public Dictionary<string, Punto> vertices { get; set; }
 
-        public Cara(Shader shader, String nombre ) { 
+        public Cara(Shader shader, String nombre ,Vector3 origenne) { 
             this.shader = shader;
             this.name = nombre;
+            this.origen = origenne;
             this.vertices = new Dictionary<string, Punto>();// cuando se crea el objeto solo con el chaser y el nombre
         }
 
@@ -57,11 +59,11 @@ namespace ProgGraficaTareas
             int pos = 0;
             foreach (KeyValuePair<string, Punto> k in vertices)
             {
-                result[pos] = k.Value.x;
+                result[pos] = k.Value.x+this.origen.X;
                 pos++;
-                result[pos] = k.Value.y;
+                result[pos] = k.Value.y+this.origen.Y;
                 pos++;
-                result[pos] = k.Value.z;
+                result[pos] = k.Value.z+this.origen.Z;
                 pos++;
             }
             return result;
