@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.IO;
 using OpenTK.Windowing.GraphicsLibraryFramework; // Asegúrate de agregar esta referencia
-
+using System.Text.Json;
 
 namespace ProgGraficaTareas
 {
@@ -77,6 +77,7 @@ namespace ProgGraficaTareas
             
             televisor = new Televisor(shader, new Vector3(0.0f, 0.0f, 0.0f));
 
+            Punto punto1 = new Punto(0.15f, 0.10f, -0.10f);
 
             Cara baseFlorero = new Cara(shader, "Base Florero");
             baseFlorero.add("1", new Punto(0.15f, 0.10f, -0.10f));
@@ -188,12 +189,16 @@ namespace ProgGraficaTareas
 
             this.escena1 = new Escena(shader, "escena1");
 
-            escena1.add("1", objetonew);    
+            escena1.add("1", objetonew);
+
+            string json = JsonSerializer.Serialize(escena1);
+
+            // Imprimir JSON resultante
+            Console.WriteLine(json);
 
 
 
 
-          
             _camera = new Camera(Vector3.UnitZ, Size.X / (float)Size.Y);
           //
 

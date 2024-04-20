@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace ProgGraficaTareas
 {
-    internal class Escena
+    public class Escena
     {
-        Dictionary<string, Objeto> vertices = new Dictionary<string, Objeto>();
+       
 
-        Shader shader;
+        public Shader shader { get; set; }
 
-        String name;
+        public String name { get; set; }
 
+        public Dictionary<string, Objeto> vertices { get; set; }
         public Escena(Shader shader, String nombre)
         {
             this.shader = shader;

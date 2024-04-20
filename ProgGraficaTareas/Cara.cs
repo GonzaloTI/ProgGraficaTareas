@@ -11,16 +11,18 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Audio.OpenAL;
 
+using System.Text.Json;
+
 namespace ProgGraficaTareas
 {
-    internal class Cara
+   
+    public class Cara
     {
+       public Shader shader { get; set; }
 
-        Dictionary<string, Punto> vertices = new Dictionary<string, Punto>();
+       public String name { get; set; }
 
-        Shader shader;
-
-        String name;
+        public Dictionary<string, Punto> vertices { get; set; }
 
         public Cara(Shader shader, String nombre ) { 
             this.shader = shader;
@@ -28,7 +30,7 @@ namespace ProgGraficaTareas
             this.vertices = new Dictionary<string, Punto>();// cuando se crea el objeto solo con el chaser y el nombre
         }
 
-        public Cara(Shader shader, String nombre , Dictionary<string, Punto> listpunto)
+       /* public Cara(Shader shader, String nombre , Dictionary<string, Punto> listpunto)
         {
             this.shader = shader;
             this.name = nombre;
@@ -38,7 +40,7 @@ namespace ProgGraficaTareas
             {
                 this.vertices.Add(k.Key, k.Value);
             }
-        }
+        }*/
 
         public String getName()
         {

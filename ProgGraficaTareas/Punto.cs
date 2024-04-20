@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Text.Json;
 namespace ProgGraficaTareas
 {
-    internal class Punto
+    public class Punto
     {
 
-        private float _x;
-        private float _y;
-        private float _z;
+        public float _x;
+        public float _y;
+        public float _z;
 
         public Punto(float x, float y, float z)
         {

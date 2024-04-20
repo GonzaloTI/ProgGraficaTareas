@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace ProgGraficaTareas
 {
-    internal class Parte
+    public class Parte
     {
 
-        Dictionary<string, Cara> vertices = new Dictionary<string, Cara>();
+       
+        public Shader shader { get; set; }
 
-        Shader shader;
-
-        String name;
+        public String name { get; set; }
+        public  Dictionary<string, Cara> vertices { get; set; }
 
         public Parte(Shader shader, String nombre)
         {
