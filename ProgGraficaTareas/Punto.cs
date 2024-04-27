@@ -19,7 +19,12 @@ namespace ProgGraficaTareas
             this.y = y;
             this.z = z;
         }
-
+        public Punto()
+        {
+            this.x = 0.0f;
+            this.y = 0.0f;
+            this.z = 0.0f;
+        }
 
         public float x
         {
@@ -45,6 +50,14 @@ namespace ProgGraficaTareas
             this.x = p.x;
             this.y = p.y;
             this.z = p.z;
+        }
+
+        public Punto sum(Punto a, Punto b) { 
+        Punto res = new Punto();
+            res.x = a.x + b.x;
+            res.y = a.y + b.y;
+            res.z = a.z + b.z;
+            return res; 
         }
 
 

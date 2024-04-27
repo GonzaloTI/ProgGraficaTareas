@@ -8,18 +8,35 @@ namespace ProgGraficaTareas
 {
     public class Escena
     {
-       
 
-        public Shader shader { get; set; }
+
+        public Shader shader;
 
         public String name { get; set; }
 
+        public Punto origen { get; set; }
+
         public Dictionary<string, Objeto> vertices { get; set; }
-        public Escena(Shader shader, String nombre)
+        public Escena(Shader shader, String nombre, Punto origen)
         {
             this.shader = shader;
             this.name = nombre;
             this.vertices = new Dictionary<string, Objeto>();// cuando se crea el objeto solo con el chaser y el nombre
+            this.origen = origen;
+        }
+
+        public Escena()
+        {
+            this.name = "";
+            this.vertices = new Dictionary<string, Objeto>();// cuando se crea el objeto solo con el chaser y el nombre
+        }
+
+        public void setShader(Shader shader) { 
+        this.shader= shader;
+            foreach (KeyValuePair<string, Objeto> k in this.vertices)
+            {
+                k.Value.setShader(shader);
+            }
         }
 
         public Escena(Shader shader, String nombre, Dictionary<string, Objeto> listparte)
@@ -33,7 +50,9 @@ namespace ProgGraficaTareas
                 this.vertices.Add(k.Key, k.Value);
             }
         }
-
+        public String getName() { 
+        return this.name;
+        }
 
 
         public void add(string key, Objeto parte)
@@ -59,7 +78,7 @@ namespace ProgGraficaTareas
 
             foreach (KeyValuePair<string, Objeto> k in vertices)
             {
-                k.Value.dibujar();
+                k.Value.dibujar(this.origen);
             }
 
         }

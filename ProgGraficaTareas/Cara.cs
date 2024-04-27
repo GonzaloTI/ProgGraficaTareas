@@ -18,18 +18,23 @@ namespace ProgGraficaTareas
    
     public class Cara
     {
-       public Shader shader { get; set; }
+        public Shader shader;
 
        public String name { get; set; }
 
-        public Vector3 origen;
+        public Punto origen { get; set; }
         public Dictionary<string, Punto> vertices { get; set; }
 
-        public Cara(Shader shader, String nombre ,Vector3 origenne) { 
+        public Cara(Shader shader, String nombre ,Punto origenne) { 
             this.shader = shader;
             this.name = nombre;
             this.origen = origenne;
             this.vertices = new Dictionary<string, Punto>();// cuando se crea el objeto solo con el chaser y el nombre
+        }
+
+        public Cara() {
+            this.name = "";
+            this.vertices = new Dictionary<string, Punto>();
         }
 
        /* public Cara(Shader shader, String nombre , Dictionary<string, Punto> listpunto)
@@ -49,6 +54,11 @@ namespace ProgGraficaTareas
            return this.name;
         }
 
+        public void setShader(Shader shader)
+        {
+            this.shader = shader;
+        }
+
         public void add(string key, Punto punto)
         {
             vertices.Add(key, punto);
@@ -59,21 +69,20 @@ namespace ProgGraficaTareas
             int pos = 0;
             foreach (KeyValuePair<string, Punto> k in vertices)
             {
-                result[pos] = k.Value.x+this.origen.X;
+                result[pos] = k.Value.x+this.origen.x;
                 pos++;
-                result[pos] = k.Value.y+this.origen.Y;
+                result[pos] = k.Value.y+this.origen.y;
                 pos++;
-                result[pos] = k.Value.z+this.origen.Z;
+                result[pos] = k.Value.z+this.origen.z;
                 pos++;
             }
             return result;
 
         }
 
+        public void dibujar(Punto origen) { 
 
-
-
-        public void dibujar() { 
+            this.origen = origen;
             float[] array = Arrayvertice();
             shader.SetVector3("objectColor", new Vector3(0.0f, 0.0f, 0.0f));
             GL.BufferData(BufferTarget.ArrayBuffer, array.Length * sizeof(float), array, BufferUsageHint.StaticDraw);

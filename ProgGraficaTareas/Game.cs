@@ -30,7 +30,7 @@ namespace ProgGraficaTareas
 
         Escena escena1;
 
-
+        Escena escenaDeserializada;
 
         private Camera _camera;
 
@@ -76,11 +76,13 @@ namespace ProgGraficaTareas
             move = move * Matrix4.CreateTranslation(0f, 0f, 0f);
            shader.SetMatrix4("origen", move);
             
+            //#################
+
             televisor = new Televisor(shader, new Vector3(0.0f, 0.0f, 0.0f));
 
             Punto punto1 = new Punto(0.15f, 0.10f, -0.10f);
 
-            Vector3 origen = new Vector3(0.0f, 0.0f, 0.0f);
+            Punto origen = new Punto(0.0f, 0.0f, 0.0f);
 
             Cara baseFlorero = new Cara(shader, "Base Florero",origen);
             baseFlorero.add("1", new Punto(0.15f, 0.10f, -0.10f));
@@ -164,49 +166,67 @@ namespace ProgGraficaTareas
             carainf2.add("4", new Punto(0.45f, -0.20f, -0.0f));
             carainf2.add("3", new Punto(0.55f, -0.20f, -0.0f));
 
-            Parte parte1 = new Parte(shader,"parte1");  //parlante 1
+            Parte parte1 = new Parte(shader,"parte1", origen);  //parlante 1
             parte1.add("1",carainf2);
             parte1.add("2", carasupp2);
             parte1.add("3", caraeqatras2);
             parte1.add("4", caraeqdelante2);
 
 
-            Parte parte2 = new Parte(shader, "parte2");  //parlante 2
+            Parte parte2 = new Parte(shader, "parte2", origen);  //parlante 2
             parte2.add("1", carasupp);
             parte2.add("2", carainf);
             parte2.add("3", caraeq2);
             parte2.add("4", caraeq);
 
           
-            Parte parte3 = new Parte(shader, "parte3");  //florero
+            Parte parte3 = new Parte(shader, "parte3", origen);  //florero
             parte3.add("1", basesup);
             parte3.add("2", baseFlorero2);
             parte3.add("3", baseFlorero);
             parte3.add("4", baseinf);
 
 
-            Objeto objetonew = new Objeto(shader, "obj1");
+            Objeto objetonew = new Objeto(shader, "obj1", origen);
 
             objetonew.add("part1", parte1);
             objetonew.add("part2", parte2);
             objetonew.add("part3", parte3);
 
-            this.escena1 = new Escena(shader, "escena1");
+            Punto origen2 = new Punto(0.0f, 0.0f, -0.1f);
+
+
+            this.escena1 = new Escena(shader, "escena1", origen2);
 
             escena1.add("1", objetonew);
 
             var options = new JsonSerializerOptions
             {
-                ReferenceHandler = ReferenceHandler.Preserve,
+                ReferenceHandler = null,
                 WriteIndented = true // Opcional: para una salida con formato legible
             };
             string json = JsonSerializer.Serialize(escena1, options);
 
             // Imprimir JSON resultante
             Console.WriteLine(json);
+            string rutaArchivo = "../../../escena1.json"; 
+            // Escribir JSON en el archivo
+            File.WriteAllText(rutaArchivo, json);
 
+            //Deserializar objeto
+            string rutaArchivoDes = "../../../escena1.json"; // Ruta del archivo JSON
 
+            // Leer el contenido del archivo JSON
+            string jsonDes = File.ReadAllText(rutaArchivoDes);
 
+            // Deserializar el JSON a un objeto de tipo Escena
+            this.escenaDeserializada = JsonSerializer.Deserialize<Escena>(jsonDes);
+
+            // Ahora puedes trabajar con el objeto deserializado
+            Console.WriteLine("Objeto deserializado:"+ escenaDeserializada.getName() + " cara");
+            Console.WriteLine(escenaDeserializada);
+
+            this.escenaDeserializada.setShader(shader);
 
             _camera = new Camera(Vector3.UnitZ, Size.X / (float)Size.Y);
           //
@@ -232,12 +252,12 @@ namespace ProgGraficaTareas
 
 
             televisor.dibujar();
-          // this.objeto1.Dibujar();
-         //   this.objeto2.Dibujar();
-           // this.objeto3.Dibujar();
+            // this.objeto1.Dibujar();
+            //   this.objeto2.Dibujar();
+            // this.objeto3.Dibujar();
 
-            this.escena1.dibujar(); 
-
+             this.escena1.dibujar(); 
+          //  this.escenaDeserializada.dibujar();
             Context.SwapBuffers();
         }
 

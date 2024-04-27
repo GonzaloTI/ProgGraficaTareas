@@ -9,17 +9,20 @@ namespace ProgGraficaTareas
     public class Parte
     {
 
-       
-        public Shader shader { get; set; }
+
+        public Shader shader;
 
         public String name { get; set; }
-        public  Dictionary<string, Cara> vertices { get; set; }
 
-        public Parte(Shader shader, String nombre)
+        public Punto origen { get; set; }
+        public Dictionary<string, Cara> vertices { get; set; }
+
+        public Parte(Shader shader, String nombre, Punto origen)
         {
             this.shader = shader;
             this.name = nombre;
-            this.vertices = new Dictionary<string, Cara>();// cuando se crea el objeto solo con el chaser y el nombre
+            this.vertices = new Dictionary<string, Cara>();// cuando se crea el objeto solo con el shader y el nombre
+            this.origen = origen;
         }
 
         public Parte(Shader shader, String nombre, Dictionary<string, Cara> listcara)
@@ -34,12 +37,29 @@ namespace ProgGraficaTareas
             }
         }
 
-
+        public Parte()
+        {
+            this.name = "";
+            this.vertices = new Dictionary<string, Cara>();// cuando se crea el objeto solo con el chaser y el nombre
+        }
 
         public void add(string key, Cara cara)
         {
             vertices.Add(key, cara);
         }
+
+        public String getName() {
+            return this.name;
+        }
+        public void setShader(Shader shader)
+        {
+            this.shader = shader;
+            foreach (KeyValuePair<string, Cara> k in this.vertices)
+            {
+                k.Value.setShader(shader);
+            }
+        }
+
         public String ArrayverticeTostring()
         {
 
@@ -56,12 +76,12 @@ namespace ProgGraficaTareas
 
 
 
-        public void dibujar()
+        public void dibujar(Punto origen)
         {
-            
+            Punto origennew = origen.sum(origen, this.origen);
             foreach (KeyValuePair<string, Cara> k in vertices)
             {
-                k.Value.dibujar();
+                k.Value.dibujar(origennew);
             }
          
         }
