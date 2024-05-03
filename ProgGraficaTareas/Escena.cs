@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,10 +17,14 @@ namespace ProgGraficaTareas
 
         public Punto origen { get; set; }
 
+        public Matrix4 model = Matrix4.Identity;
+
+        public Matrix4 rot = Matrix4.Identity;
+
         public Dictionary<string, Objeto> vertices { get; set; }
         public Escena(Shader shader, String nombre, Punto origen)
         {
-            this.shader = shader;
+         //   this.shader = shader;
             this.name = nombre;
             this.vertices = new Dictionary<string, Objeto>();// cuando se crea el objeto solo con el chaser y el nombre
             this.origen = origen;
@@ -75,13 +80,38 @@ namespace ProgGraficaTareas
 
         public void dibujar()
         {
-
+           
             foreach (KeyValuePair<string, Objeto> k in vertices)
             {
-                k.Value.dibujar(this.origen);
+                k.Value.dibujar(this.origen, rot * Matrix4.CreateTranslation(this.origen.x, 0.5f, this.origen.z) * this.model);
             }
 
         }
-
+        public void escalar(float x, float y, float z)
+        {
+            foreach (KeyValuePair<string, Objeto> k in vertices)
+            {
+                k.Value.escalar(x, y, z);
+            }
+        }
+        public void trasladar(float x, float y, float z)
+        {
+            foreach (KeyValuePair<string, Objeto> k in vertices)
+            {
+                k.Value.trasladar(x, y, z);
+            }
+        }
+        public void rotartodos(float a, float x, float y, float z)
+        {
+            foreach (KeyValuePair<string, Objeto> k in vertices)
+            {
+                k.Value.rotar(a, x, y, z);
+            }
+        }
+        public void rotar2(float a, float x, float y, float z)
+        {
+            this.rot = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(60f)) * Matrix4.CreateTranslation(0.0f, 1.0f, 0.0f); 
+        //    this.model = rot;
+        }  
     }
 }

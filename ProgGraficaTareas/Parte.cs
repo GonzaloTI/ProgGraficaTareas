@@ -1,6 +1,8 @@
-﻿using System;
+﻿using OpenTK.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,11 +17,14 @@ namespace ProgGraficaTareas
         public String name { get; set; }
 
         public Punto origen { get; set; }
+
+        public Matrix4 model = Matrix4.Identity;
+        public Matrix4 rot = Matrix4.Identity;
         public Dictionary<string, Cara> vertices { get; set; }
 
         public Parte(Shader shader, String nombre, Punto origen)
         {
-            this.shader = shader;
+           // this.shader = shader;
             this.name = nombre;
             this.vertices = new Dictionary<string, Cara>();// cuando se crea el objeto solo con el shader y el nombre
             this.origen = origen;
@@ -76,15 +81,38 @@ namespace ProgGraficaTareas
 
 
 
-        public void dibujar(Punto origen)
-        {
+        public void dibujar(Punto origen , Matrix4 modell)
+        { 
             Punto origennew = origen.sum(origen, this.origen);
+
+         //   this.model = modell;
+
             foreach (KeyValuePair<string, Cara> k in vertices)
             {
-                k.Value.dibujar(origennew);
+                k.Value.dibujar(origennew,rot *  this.model * Matrix4.CreateTranslation(this.origen.x, this.origen.y, this.origen.z) * modell);
             }
          
         }
-
+        public void rotar(float a ,float x,float y,float z)
+        {
+            foreach (KeyValuePair<string, Cara> k in vertices)
+            {
+                k.Value.rotar(a,x,y,z);
+            }
+        }
+        public void escalar(float x, float y, float z)
+        {
+            foreach (KeyValuePair<string, Cara> k in vertices)
+            {
+                k.Value.escalar(x, y, z);
+            }
+        }
+        public void trasladar(float x, float y, float z)
+        {
+            foreach (KeyValuePair<string, Cara> k in vertices)
+            {
+                k.Value.trasladar(x, y, z);
+            }
+        }
     }
 }

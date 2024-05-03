@@ -14,8 +14,10 @@ namespace ProgGraficaTareas
 {
     public class Game : GameWindow
     {
-        public Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings) { }
-
+        public Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings) {
+            this.VSync = VSyncMode.On;
+        }
+     
         Shader shader;
 
         private int vertexBufferObject;
@@ -31,6 +33,10 @@ namespace ProgGraficaTareas
         Escena escena1;
 
         Escena escenaDeserializada;
+        Escena escenaDeserializada2;
+        Escena escenaprueva;
+
+       // Parte parterotar;
 
         private Camera _camera;
 
@@ -64,17 +70,17 @@ namespace ProgGraficaTareas
          
             view = Matrix4.CreateTranslation(0.0f, 0.0f, -3.0f);
           // projection = Matrix4.CreateOrthographic(2.0f, 2.0f, 0.1f, 100.0f); // Tamaño de la proyección ortogonal en el plano XY
-            model = Matrix4.Identity * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(30.0f));
+            model = Matrix4.Identity * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(0.0f));
 
 
             shader.SetMatrix4("model", model);
             shader.SetMatrix4("projection", projection);
             shader.SetMatrix4("view", view);
 
-            shader.Use();
-            var move = Matrix4.Identity;
-            move = move * Matrix4.CreateTranslation(0f, 0f, 0f);
-           shader.SetMatrix4("origen", move);
+       //     shader.Use();
+      //     var move = Matrix4.Identity;
+      //     move = move * Matrix4.CreateTranslation(0f, 0f, 0f);
+      //      shader.SetMatrix4("origen", move);
             
             //#################
 
@@ -172,6 +178,80 @@ namespace ProgGraficaTareas
             parte1.add("3", caraeqatras2);
             parte1.add("4", caraeqdelante2);
 
+         //###########################################################################
+            Punto origenparterota = new Punto(0.09f, 0.0f, 0.0f);
+
+            Punto origenparterota2 = new Punto(-0.09f, 0.0f, 0.0f);
+
+            Punto origencara = new Punto(0.0f, 0.0f, 0.0f);
+
+            Cara caraeqdelante2rota = new Cara(shader, "Base equipo", origencara);
+            caraeqdelante2rota.add("1", new Punto(-0.05f, -0.1f, 0.0f));
+            caraeqdelante2rota.add("2", new Punto(0.05f, -0.1f, 0.0f));
+            caraeqdelante2rota.add("3", new Punto(0.05f, 0.1f, 0.0f));
+            caraeqdelante2rota.add("4", new Punto(-0.05f, 0.1f, 0.0f));
+
+
+            Cara caraeqatras2rota = new Cara(shader, "Base equipo 2", origencara);
+            caraeqatras2rota.add("1", new Punto(-0.05f, -0.1f, -0.05f));
+            caraeqatras2rota.add("2", new Punto(0.05f, -0.1f, -0.05f));
+            caraeqatras2rota.add("3", new Punto(0.05f, 0.1f, -0.05f));
+            caraeqatras2rota.add("4", new Punto(-0.05f, 0.1f, -0.05f));
+
+            Cara carasupp2rota = new Cara(shader, "superior", origencara);
+            carasupp2rota.add("1", new Punto(0.05f, 0.1f, 0.0f));
+            carasupp2rota.add("2", new Punto(-0.05f, 0.1f, 0.0f));
+            carasupp2rota.add("4", new Punto(-0.05f, 0.1f, -0.05f));
+            carasupp2rota.add("3", new Punto(0.05f, 0.1f, -0.05f));
+
+
+            Cara carainf2rota = new Cara(shader, "inferior", origencara);
+            carainf2rota.add("1", new Punto(-0.05f, -0.1f, 0.0f));
+            carainf2rota.add("2", new Punto(0.05f, -0.1f, 0.0f));
+            carainf2rota.add("4", new Punto(0.05f, -0.1f, -0.05f));
+            carainf2rota.add("3", new Punto(-0.05f, -0.1f, -0.05f));
+
+            Parte parterotar = new Parte(shader, "parte123", origenparterota);  //parlante 1
+            parterotar.add("11", carainf2rota);
+            parterotar.add("22", carasupp2rota);
+            parterotar.add("33", caraeqatras2rota);
+            parterotar.add("44", caraeqdelante2rota);
+
+
+            Parte parterotar2 = new Parte(shader, "parte145", origenparterota2);  //parlante 2
+            parterotar2.add("1", carainf2rota);
+            parterotar2.add("2", carasupp2rota);
+            parterotar2.add("3", caraeqatras2rota);
+            parterotar2.add("4", caraeqdelante2rota);
+
+            Punto origenobjeto = new Punto(1.0f,0.0f,0.0f);
+
+            Objeto objetopractica = new Objeto(shader,"objetoprueva", origenobjeto);
+            objetopractica.add("1", parterotar);
+            objetopractica.add("2", parterotar2);
+
+            Punto origenescena = new Punto(0.0f, 0.0f, 0.0f);
+            escenaprueva = new Escena( shader ,"escenaprueva" , origenescena);
+
+            escenaprueva.add("1", objetopractica);
+
+
+            Utilidades utils2 = new Utilidades();
+            //serializarobjeto
+            string rutaArchivo1 = "../../../escena55.json";
+            utils2.saveJson(rutaArchivo1, escenaprueva);
+
+
+            //Deserializar objeto
+            string rutaArchivoDes1 = "../../../escena55.json"; // Ruta del archivo JSON
+
+            this.escenaDeserializada2 = utils2.getObjectFromJson<Escena>(rutaArchivoDes1);
+
+
+            escenaprueva.setShader(shader);
+            escenaDeserializada2.setShader(shader);
+            
+            //###########################################################################
 
             Parte parte2 = new Parte(shader, "parte2", origen);  //parlante 2
             parte2.add("1", carasupp);
@@ -200,42 +280,31 @@ namespace ProgGraficaTareas
 
             escena1.add("1", objetonew);
 
-            var options = new JsonSerializerOptions
-            {
-                ReferenceHandler = null,
-                WriteIndented = true // Opcional: para una salida con formato legible
-            };
-            string json = JsonSerializer.Serialize(escena1, options);
+            Utilidades utils = new Utilidades();
+            //serializarobjeto
+            string rutaArchivo = "../../../escena111.json";
+            utils.saveJson(rutaArchivo, escena1);
 
-            // Imprimir JSON resultante
-            Console.WriteLine(json);
-            string rutaArchivo = "../../../escena1.json"; 
-            // Escribir JSON en el archivo
-            File.WriteAllText(rutaArchivo, json);
 
             //Deserializar objeto
             string rutaArchivoDes = "../../../escena1.json"; // Ruta del archivo JSON
 
-            // Leer el contenido del archivo JSON
-            string jsonDes = File.ReadAllText(rutaArchivoDes);
-
-            // Deserializar el JSON a un objeto de tipo Escena
-            this.escenaDeserializada = JsonSerializer.Deserialize<Escena>(jsonDes);
-
-            // Ahora puedes trabajar con el objeto deserializado
-            Console.WriteLine("Objeto deserializado:"+ escenaDeserializada.getName() + " cara");
+            this.escenaDeserializada = utils.getObjectFromJson<Escena>(rutaArchivoDes);
             Console.WriteLine(escenaDeserializada);
 
-            this.escenaDeserializada.setShader(shader);
+           this.escenaDeserializada.setShader(shader);
+
+            
+            this.escenaprueva.setShader(shader);
 
             _camera = new Camera(Vector3.UnitZ, Size.X / (float)Size.Y);
-          //
-
+            //
+            
         }
 
         protected override void OnRenderFrame(FrameEventArgs args)
         {
-            base.OnRenderFrame(args);
+          base.OnRenderFrame(args);
             _time += 0.0 * args.Time;
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -248,16 +317,22 @@ namespace ProgGraficaTareas
            shader.SetMatrix4("model", model);
            shader.SetMatrix4("view", _camera.GetViewMatrix());
            shader.SetMatrix4("projection", _camera.GetProjectionMatrix());
-
+          
 
 
             televisor.dibujar();
             // this.objeto1.Dibujar();
-            //   this.objeto2.Dibujar();
+              // this.objeto2.Dibujar();
             // this.objeto3.Dibujar();
 
-             this.escena1.dibujar(); 
-          //  this.escenaDeserializada.dibujar();
+           //    this.escena1.dibujar(); 
+           //this.escenaDeserializada.dibujar();
+
+            // this.parterotar.dibujar(new Punto(0.0f, 0.0f, 0.0f));
+
+           // escenaprueva.dibujar();
+            escenaDeserializada2.dibujar();
+         
             Context.SwapBuffers();
         }
 
@@ -297,7 +372,30 @@ namespace ProgGraficaTareas
 
             if (input.IsKeyDown(Keys.W))
             {
-                _camera.Position += _camera.Front * cameraSpeed * (float)e.Time; // Forward
+                _camera.Position += _camera.Front * cameraSpeed * (float)e.Time;
+                // Forward
+                //this.parterotar.escalar(1.0f,1.0f,1.0f);
+                //   escena1.escalar(1.2f, 1.2f, 1.0f);
+                //   this.parterotar.escalar(1.0f, 1.3f, 1.0f);
+                //  escenaDeserializada.trasladar(0.0f,1.0f,0.0f);
+
+                // escenaprueva.escalar(1.0f, 1.5f, 1.0f);
+               Parte newp = escenaDeserializada.vertices.First().Value.vertices.First().Value;
+              //  parterotar.trasladar(-1.5f, 0.0f, 0.0f);
+             //   newp.trasladar(-0.5f, 0.0f, 0.0f);
+                //  escenaprueva.trasladar(-0.5f, 0.5f, 0.0f);
+               
+
+                Parte newp2 = escenaDeserializada2.vertices.First().Value.vertices.First().Value;
+                //  parterotar.trasladar(-1.5f, 0.0f, 0.0f);
+               newp2.rotar(60f,1.0f, 1.5f, 1.0f);
+                //    newp2.escalar(1.0f, 2.0f, 1.0f);
+                //    newp2.trasladar(-1.0f, 0.0f, 0.0f);
+             //   escenaDeserializada2.rotar2(60f,-0.5f, 0.5f, 0.0f);
+
+               Objeto newOb24 = escenaDeserializada2.vertices.First().Value;
+              //  newOb24.rotar(60f,1.0f,1.5f,1.0f);
+
             }
 
             if (input.IsKeyDown(Keys.S))

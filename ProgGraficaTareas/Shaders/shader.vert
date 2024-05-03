@@ -8,7 +8,8 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform mat4 origen;
 
+uniform mat4 transform;
 void main(void)
 {
-	gl_Position = vec4(aPosition, 1.0) * model * view *  projection * origen;
+	gl_Position = vec4(aPosition, 1.0) * model * view * projection ;
 }
