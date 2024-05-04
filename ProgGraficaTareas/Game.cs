@@ -178,10 +178,25 @@ namespace ProgGraficaTareas
             parte1.add("3", caraeqatras2);
             parte1.add("4", caraeqdelante2);
 
-         //###########################################################################
+            //###########################################################################
+            Punto origenescena = new Punto(0.0f, 0.0f, 0.0f);
+
+            escenaprueva = new Escena(shader, "escenaprueva", origenescena); 
+            
+            Punto origenobjeto = new Punto(1.0f,0.0f,0.0f);
+
+            Objeto objetopractica = new Objeto(shader,"objetoprueva", origenobjeto);
+
+
+
+
             Punto origenparterota = new Punto(0.09f, 0.0f, 0.0f);
 
             Punto origenparterota2 = new Punto(-0.09f, 0.0f, 0.0f);
+
+            Parte parterotar = new Parte(shader, "parte123", origenparterota);  //parlante 1
+
+            Parte parterotar2 = new Parte(shader, "parte145", origenparterota2);  //parlante 2
 
             Punto origencara = new Punto(0.0f, 0.0f, 0.0f);
 
@@ -211,27 +226,19 @@ namespace ProgGraficaTareas
             carainf2rota.add("4", new Punto(0.05f, -0.1f, -0.05f));
             carainf2rota.add("3", new Punto(-0.05f, -0.1f, -0.05f));
 
-            Parte parterotar = new Parte(shader, "parte123", origenparterota);  //parlante 1
             parterotar.add("11", carainf2rota);
             parterotar.add("22", carasupp2rota);
             parterotar.add("33", caraeqatras2rota);
             parterotar.add("44", caraeqdelante2rota);
 
-
-            Parte parterotar2 = new Parte(shader, "parte145", origenparterota2);  //parlante 2
             parterotar2.add("1", carainf2rota);
             parterotar2.add("2", carasupp2rota);
             parterotar2.add("3", caraeqatras2rota);
             parterotar2.add("4", caraeqdelante2rota);
 
-            Punto origenobjeto = new Punto(1.0f,0.0f,0.0f);
-
-            Objeto objetopractica = new Objeto(shader,"objetoprueva", origenobjeto);
+           
             objetopractica.add("1", parterotar);
             objetopractica.add("2", parterotar2);
-
-            Punto origenescena = new Punto(0.0f, 0.0f, 0.0f);
-            escenaprueva = new Escena( shader ,"escenaprueva" , origenescena);
 
             escenaprueva.add("1", objetopractica);
 
@@ -248,7 +255,8 @@ namespace ProgGraficaTareas
             this.escenaDeserializada2 = utils2.getObjectFromJson<Escena>(rutaArchivoDes1);
 
 
-            escenaprueva.setShader(shader);
+       //     escenaprueva.setShader(shader);
+
             escenaDeserializada2.setShader(shader);
             
             //###########################################################################
@@ -294,9 +302,6 @@ namespace ProgGraficaTareas
 
            this.escenaDeserializada.setShader(shader);
 
-            
-            this.escenaprueva.setShader(shader);
-
             _camera = new Camera(Vector3.UnitZ, Size.X / (float)Size.Y);
             //
             
@@ -330,7 +335,7 @@ namespace ProgGraficaTareas
 
             // this.parterotar.dibujar(new Punto(0.0f, 0.0f, 0.0f));
 
-           // escenaprueva.dibujar();
+            escenaprueva.dibujar();
             escenaDeserializada2.dibujar();
          
             Context.SwapBuffers();
@@ -373,28 +378,27 @@ namespace ProgGraficaTareas
             if (input.IsKeyDown(Keys.W))
             {
                 _camera.Position += _camera.Front * cameraSpeed * (float)e.Time;
-                // Forward
-                //this.parterotar.escalar(1.0f,1.0f,1.0f);
-                //   escena1.escalar(1.2f, 1.2f, 1.0f);
-                //   this.parterotar.escalar(1.0f, 1.3f, 1.0f);
-                //  escenaDeserializada.trasladar(0.0f,1.0f,0.0f);
+              
 
-                // escenaprueva.escalar(1.0f, 1.5f, 1.0f);
-               Parte newp = escenaDeserializada.vertices.First().Value.vertices.First().Value;
-              //  parterotar.trasladar(-1.5f, 0.0f, 0.0f);
-             //   newp.trasladar(-0.5f, 0.0f, 0.0f);
-                //  escenaprueva.trasladar(-0.5f, 0.5f, 0.0f);
+              // escenaprueva.escalar(1.0f, 1.5f, 1.0f);
+
+
+             //  Parte newp = escenaDeserializada.vertices.First().Value.vertices.First().Value;
                
+
+                escenaDeserializada2.trasladar(0.0f, 1.5f, 0.0f);
+
+                //escenaDeserializada2.rotar(60f,0.0f, 0.0f, 1.0f);
 
                 Parte newp2 = escenaDeserializada2.vertices.First().Value.vertices.First().Value;
                 //  parterotar.trasladar(-1.5f, 0.0f, 0.0f);
-               newp2.rotar(60f,1.0f, 1.5f, 1.0f);
+             //  newp2.rotar(60f,0.0f, 0.0f, 1.0f);
+
                 //    newp2.escalar(1.0f, 2.0f, 1.0f);
                 //    newp2.trasladar(-1.0f, 0.0f, 0.0f);
-             //   escenaDeserializada2.rotar2(60f,-0.5f, 0.5f, 0.0f);
 
                Objeto newOb24 = escenaDeserializada2.vertices.First().Value;
-              //  newOb24.rotar(60f,1.0f,1.5f,1.0f);
+                newOb24.rotar(60f,0.0f,0.0f,1.0f);
 
             }
 

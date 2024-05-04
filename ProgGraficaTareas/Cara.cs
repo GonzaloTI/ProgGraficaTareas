@@ -26,18 +26,17 @@ namespace ProgGraficaTareas
     {
         public Shader shader;
 
-       public String name { get; set; }
-
+        public String name { get; set; }
         public Punto origen { get; set; }
         public Dictionary<string, Punto> vertices { get; set; }
 
         public Matrix4 transform = Matrix4.Identity;
 
-        public Matrix4 origencara = Matrix4.Identity;
+        public Matrix4 rot = Matrix4.Identity;
 
-        public Matrix4 models = Matrix4.Identity;
+
         public Cara(Shader shader, String nombre ,Punto origenne) { 
-           // this.shader = shader;
+            this.shader = shader;
             this.name = nombre;
             this.origen = origenne;
         //    transform = transform * Matrix4.CreateTranslation(this.origen.x, this.origen.y, this.origen.z);
@@ -96,11 +95,10 @@ namespace ProgGraficaTareas
             shader.Use();
             //this.origen = origen;
 
-            //  shader.SetMatrix4("origen", origencara);
 
             // Aplicar las transformaciones locales a la matriz de modelo
 
-            Matrix4 model =  transform * Matrix4.CreateTranslation(this.origen.x, this.origen.y, this.origen.z) *  modell ;
+            Matrix4 model = rot * transform * Matrix4.CreateTranslation(this.origen.x, this.origen.y, this.origen.z) *  modell ;
 
             //Matrix4 model = transform * modell;
             shader.SetMatrix4("model", model);
@@ -113,11 +111,11 @@ namespace ProgGraficaTareas
         {
             Console.WriteLine( this.origen.x.ToString() +"x , " +this.origen.y.ToString() + "y , " + this.origen.z.ToString() + "z , " );
 
-            if (x > 0) transform = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(a));
+            if (x > 0) rot = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(a));
 
-            if (y > 0) transform = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(a));
+            if (y > 0) rot = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(a));
 
-            if (z > 0) transform = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(a));
+            if (z > 0) rot = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(a));
 
           //  transform =  transform * Matrix4.CreateTranslation(this.origen.x, this.origen.y, this.origen.z);
            
@@ -130,8 +128,7 @@ namespace ProgGraficaTareas
         public void trasladar(float x, float y, float z)
         {
         
-            // transform =  Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(50f));
-            //transform = transform * Matrix4.CreateTranslation(x,y,z);
+           
             transform =  Matrix4.CreateTranslation(x, y, z);
 
         }

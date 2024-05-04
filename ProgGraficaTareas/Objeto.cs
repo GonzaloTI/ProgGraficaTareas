@@ -24,7 +24,7 @@ namespace ProgGraficaTareas
         public Dictionary<string, Parte> vertices { get; set; }
         public Objeto(Shader shader, String nombre, Punto origen)
         {
-         //   this.shader = shader;
+            this.shader = shader;
             this.name = nombre;
             this.vertices = new Dictionary<string, Parte>();// cuando se crea el objeto solo con el chaser y el nombre
             this.origen = origen;
@@ -88,27 +88,27 @@ namespace ProgGraficaTareas
 
             foreach (KeyValuePair<string, Parte> k in vertices)
             {
-                k.Value.dibujar(origennew, Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(20)) * this.model * Matrix4.CreateTranslation(this.origen.x, this.origen.y, this.origen.z) * modell);
+                k.Value.dibujar(origennew,rot * this.model * Matrix4.CreateTranslation(this.origen.x, this.origen.y, this.origen.z) * modell);
             }
 
         }
         public void escalar(float x, float y, float z)
         {
-            foreach (KeyValuePair<string, Parte> k in vertices)
-            {
-                k.Value.escalar(x, y, z);
-            }
+            this.model = Matrix4.CreateScale(x, y, z);
         }
         public void trasladar(float x, float y, float z)
         {
-            foreach (KeyValuePair<string, Parte> k in vertices)
-            {
-                k.Value.trasladar(x, y, z);
-            }
+            this.model = Matrix4.CreateTranslation(x, y, z);
         }
         public void rotar(float a, float x, float y, float z)
         {
-            this.rot = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(a)) ;
+            Console.WriteLine(this.origen.x.ToString() + "x , " + this.origen.y.ToString() + "y , " + this.origen.z.ToString() + "z , ");
+
+            if (x > 0) rot = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(a));
+
+            if (y > 0) rot = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(a));
+
+            if (z > 0) rot = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(a));
 
         }
     }

@@ -21,10 +21,12 @@ namespace ProgGraficaTareas
 
         public Matrix4 rot = Matrix4.Identity;
 
+
+
         public Dictionary<string, Objeto> vertices { get; set; }
         public Escena(Shader shader, String nombre, Punto origen)
         {
-         //   this.shader = shader;
+            this.shader = shader;
             this.name = nombre;
             this.vertices = new Dictionary<string, Objeto>();// cuando se crea el objeto solo con el chaser y el nombre
             this.origen = origen;
@@ -83,23 +85,17 @@ namespace ProgGraficaTareas
            
             foreach (KeyValuePair<string, Objeto> k in vertices)
             {
-                k.Value.dibujar(this.origen, rot * Matrix4.CreateTranslation(this.origen.x, 0.5f, this.origen.z) * this.model);
+                k.Value.dibujar(this.origen, rot * this.model * Matrix4.CreateTranslation(this.origen.x, this.origen.y, this.origen.z) );
             }
 
         }
         public void escalar(float x, float y, float z)
         {
-            foreach (KeyValuePair<string, Objeto> k in vertices)
-            {
-                k.Value.escalar(x, y, z);
-            }
+            this.model = Matrix4.CreateScale(x, y, z);
         }
         public void trasladar(float x, float y, float z)
         {
-            foreach (KeyValuePair<string, Objeto> k in vertices)
-            {
-                k.Value.trasladar(x, y, z);
-            }
+            this.model = Matrix4.CreateTranslation(x, y, z);
         }
         public void rotartodos(float a, float x, float y, float z)
         {
@@ -108,10 +104,16 @@ namespace ProgGraficaTareas
                 k.Value.rotar(a, x, y, z);
             }
         }
-        public void rotar2(float a, float x, float y, float z)
+        public void rotar(float a, float x, float y, float z)
         {
-            this.rot = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(60f)) * Matrix4.CreateTranslation(0.0f, 1.0f, 0.0f); 
-        //    this.model = rot;
-        }  
+            Console.WriteLine(this.origen.x.ToString() + "x , " + this.origen.y.ToString() + "y , " + this.origen.z.ToString() + "z , ");
+
+            if (x > 0) rot = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(a));
+
+            if (y > 0) rot = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(a));
+
+            if (z > 0) rot = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(a));
+
+        }
     }
 }

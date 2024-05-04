@@ -24,7 +24,7 @@ namespace ProgGraficaTareas
 
         public Parte(Shader shader, String nombre, Punto origen)
         {
-           // this.shader = shader;
+            this.shader = shader;
             this.name = nombre;
             this.vertices = new Dictionary<string, Cara>();// cuando se crea el objeto solo con el shader y el nombre
             this.origen = origen;
@@ -78,14 +78,9 @@ namespace ProgGraficaTareas
             return listcaras;
         }
 
-
-
-
         public void dibujar(Punto origen , Matrix4 modell)
         { 
             Punto origennew = origen.sum(origen, this.origen);
-
-         //   this.model = modell;
 
             foreach (KeyValuePair<string, Cara> k in vertices)
             {
@@ -93,26 +88,26 @@ namespace ProgGraficaTareas
             }
          
         }
-        public void rotar(float a ,float x,float y,float z)
-        {
-            foreach (KeyValuePair<string, Cara> k in vertices)
-            {
-                k.Value.rotar(a,x,y,z);
-            }
-        }
+
         public void escalar(float x, float y, float z)
         {
-            foreach (KeyValuePair<string, Cara> k in vertices)
-            {
-                k.Value.escalar(x, y, z);
-            }
+            this.model = Matrix4.CreateScale(x, y, z);
         }
         public void trasladar(float x, float y, float z)
         {
-            foreach (KeyValuePair<string, Cara> k in vertices)
-            {
-                k.Value.trasladar(x, y, z);
-            }
+            this.model = Matrix4.CreateTranslation(x, y, z);
         }
+        public void rotar(float a ,float x,float y,float z)
+        {
+            Console.WriteLine(this.origen.x.ToString() + "x , " + this.origen.y.ToString() + "y , " + this.origen.z.ToString() + "z , ");
+
+            if (x > 0) rot = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(a));
+
+            if (y > 0) rot = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(a));
+
+            if (z > 0) rot = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(a));
+
+        }
+
     }
 }
