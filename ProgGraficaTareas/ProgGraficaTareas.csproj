@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="GtkSharp" Version="3.24.24.95" />
     <PackageReference Include="OpenTK" Version="4.7.1" />
   </ItemGroup>
 

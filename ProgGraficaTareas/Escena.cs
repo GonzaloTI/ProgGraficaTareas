@@ -95,7 +95,7 @@ namespace ProgGraficaTareas
         }
         public void trasladar(float x, float y, float z)
         {
-            this.model = Matrix4.CreateTranslation(x, y, z);
+            this.model = this.model   * Matrix4.CreateTranslation(x, y, z);
         }
         public void rotartodos(float a, float x, float y, float z)
         {

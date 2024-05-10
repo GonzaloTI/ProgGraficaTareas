@@ -6,9 +6,11 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.IO;
-using OpenTK.Windowing.GraphicsLibraryFramework; // Asegúrate de agregar esta referencia
+using OpenTK.Windowing.GraphicsLibraryFramework; 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
+using ProgGraficaTareas.animacion;
 
 namespace ProgGraficaTareas
 {
@@ -45,6 +47,9 @@ namespace ProgGraficaTareas
         private Vector2 _lastPos;
 
         private double _time;
+
+        Thread animarthread;
+        bool animated = false;
         protected override void OnLoad()
         {
             base.OnLoad();
@@ -303,10 +308,21 @@ namespace ProgGraficaTareas
            this.escenaDeserializada.setShader(shader);
 
             _camera = new Camera(Vector3.UnitZ, Size.X / (float)Size.Y);
-            //
-            
+           
+           
         }
+        public void animacion(Escena escena) {
+            Animacion ani = new Animacion(1000f,2f);
+          
+           while(true)
+            {
+               ani.Animar(escena);
+                Console.WriteLine("hilo corriendo");
+            Thread.Sleep(100);
 
+            }
+           
+        }
         protected override void OnRenderFrame(FrameEventArgs args)
         {
           base.OnRenderFrame(args);
@@ -337,7 +353,8 @@ namespace ProgGraficaTareas
 
             escenaprueva.dibujar();
             escenaDeserializada2.dibujar();
-         
+
+
             Context.SwapBuffers();
         }
 
@@ -378,17 +395,21 @@ namespace ProgGraficaTareas
             if (input.IsKeyDown(Keys.W))
             {
                 _camera.Position += _camera.Front * cameraSpeed * (float)e.Time;
-              
+
+                if (!animated) {
+                    this.animarthread = new Thread(() => animacion(escenaDeserializada2));
+                    this.animarthread.Start(); 
+                    animated = true; }
 
               // escenaprueva.escalar(1.0f, 1.5f, 1.0f);
 
 
-             //  Parte newp = escenaDeserializada.vertices.First().Value.vertices.First().Value;
-               
+                //  Parte newp = escenaDeserializada.vertices.First().Value.vertices.First().Value;
 
-                escenaDeserializada2.trasladar(0.0f, 1.5f, 0.0f);
 
-                //escenaDeserializada2.rotar(60f,0.0f, 0.0f, 1.0f);
+              //  escenaDeserializada2.trasladar(0.0f, 1.5f, 0.0f);
+
+              //  escenaDeserializada2.rotar(60f,0.0f, 0.0f, 1.0f);
 
                 Parte newp2 = escenaDeserializada2.vertices.First().Value.vertices.First().Value;
                 //  parterotar.trasladar(-1.5f, 0.0f, 0.0f);
