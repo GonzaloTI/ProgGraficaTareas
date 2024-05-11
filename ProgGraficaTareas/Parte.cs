@@ -91,21 +91,21 @@ namespace ProgGraficaTareas
 
         public void escalar(float x, float y, float z)
         {
-            this.model = Matrix4.CreateScale(x, y, z);
+            this.model = this.model* Matrix4.CreateScale(x, y, z);
         }
         public void trasladar(float x, float y, float z)
         {
-            this.model = Matrix4.CreateTranslation(x, y, z);
+            this.model = this.model* Matrix4.CreateTranslation(x, y, z);
         }
         public void rotar(float a ,float x,float y,float z)
         {
-            Console.WriteLine(this.origen.x.ToString() + "x , " + this.origen.y.ToString() + "y , " + this.origen.z.ToString() + "z , ");
+            Console.WriteLine( "parte" + this.origen.x.ToString() + "x , " + this.origen.y.ToString() + "y , " + this.origen.z.ToString() + "z , ");
 
-            if (x > 0) rot = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(a));
+            if (x > 0) rot = rot * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(a));
 
-            if (y > 0) rot = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(a));
+            if (y > 0) rot = rot * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(a));
 
-            if (z > 0) rot = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(a));
+            if (z > 0) rot = rot * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(a));
 
         }
 

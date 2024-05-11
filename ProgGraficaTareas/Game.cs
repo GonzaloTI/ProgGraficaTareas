@@ -21,6 +21,10 @@ namespace ProgGraficaTareas
         }
      
         Shader shader;
+        Thread animarthread;
+
+        bool mythreadbool = false;
+        Animacion directoranimacion;
 
         private int vertexBufferObject;
         private int vertexArrayObject;
@@ -48,7 +52,6 @@ namespace ProgGraficaTareas
 
         private double _time;
 
-        Thread animarthread;
         bool animated = false;
         protected override void OnLoad()
         {
@@ -82,11 +85,41 @@ namespace ProgGraficaTareas
             shader.SetMatrix4("projection", projection);
             shader.SetMatrix4("view", view);
 
-       //     shader.Use();
-      //     var move = Matrix4.Identity;
-      //     move = move * Matrix4.CreateTranslation(0f, 0f, 0f);
-      //      shader.SetMatrix4("origen", move);
-            
+            //     shader.Use();
+            //     var move = Matrix4.Identity;
+            //     move = move * Matrix4.CreateTranslation(0f, 0f, 0f);
+            //      shader.SetMatrix4("origen", move);
+
+            // TELEVISOR
+
+            Punto centromasatv = new Punto(0.0f,0.0f,0.0f);
+
+            Cara caratv = new Cara(shader, "Base tv", centromasatv);
+            caratv.add("1", new Punto(-0.55f, -0.20f, -0.10f));
+            caratv.add("2", new Punto(-0.45f, -0.20f, -0.10f));
+            caratv.add("3", new Punto(-0.45f, 0.01f, -0.10f));
+            caratv.add("4", new Punto(-0.55f, 0.01f, -0.10f));
+
+
+            Cara caratv2 = new Cara(shader, "Base tv 2", centromasatv);
+            caratv2.add("1", new Punto(-0.55f, -0.20f, -0.0f));
+            caratv2.add("2", new Punto(-0.45f, -0.20f, -0.0f));
+            caratv2.add("3", new Punto(-0.45f, 0.01f, -0.0f));
+            caratv2.add("4", new Punto(-0.55f, 0.01f, -0.0f));
+
+            Cara caratvsupp = new Cara(shader, "superior", centromasatv);
+            caratvsupp.add("1", new Punto(-0.55f, 0.01f, -0.10f));
+            caratvsupp.add("2", new Punto(-0.45f, 0.01f, -0.10f));
+            caratvsupp.add("3", new Punto(-0.45f, 0.01f, -0.0f));
+            caratvsupp.add("4", new Punto(-0.55f, 0.01f, -0.0f));
+
+            Cara caratvinf = new Cara(shader, "inferior", centromasatv);
+            caratvinf.add("1", new Punto(-0.55f, -0.20f, -0.10f));
+            caratvinf.add("2", new Punto(-0.45f, -0.20f, -0.10f));
+            caratvinf.add("4", new Punto(-0.45f, -0.20f, -0.0f));
+            caratvinf.add("3", new Punto(-0.55f, -0.20f, -0.0f));
+
+
             //#################
 
             televisor = new Televisor(shader, new Vector3(0.0f, 0.0f, 0.0f));
@@ -188,20 +221,37 @@ namespace ProgGraficaTareas
 
             escenaprueva = new Escena(shader, "escenaprueva", origenescena); 
             
-            Punto origenobjeto = new Punto(1.0f,0.0f,0.0f);
+            Punto origenobjeto = new Punto(0.5f,0.0f,0.0f);
 
-            Objeto objetopractica = new Objeto(shader,"objetoprueva", origenobjeto);
+            Punto origenobjeto2 = new Punto(-0.5f, 0.0f, 0.0f);
+
+            Punto origenobjeto3 = new Punto(0.0f, 0.0f, 0.0f);
 
 
+            Objeto objetopractica = new Objeto(shader,"objetoparlante1", origenobjeto);
+
+            Objeto objetopractica2 = new Objeto(shader, "objetoparlante2", origenobjeto2);
+
+            Objeto objetopractica3 = new Objeto(shader, "objetoflorero", origenobjeto3);
 
 
-            Punto origenparterota = new Punto(0.09f, 0.0f, 0.0f);
+            Punto origenparterota = new Punto(0.0f, 0.0f, 0.0f);
 
-            Punto origenparterota2 = new Punto(-0.09f, 0.0f, 0.0f);
+            Punto origenparterota2 = new Punto(0.0f, 0.0f, 0.0f);
+
+            Punto origenparterotar3 = new Punto(0.15f, 0.10f, -0.10f);
+
+            Punto origenparterotar4 = new Punto(0.0f, 0.1f, -0.05f);
+
 
             Parte parterotar = new Parte(shader, "parte123", origenparterota);  //parlante 1
 
             Parte parterotar2 = new Parte(shader, "parte145", origenparterota2);  //parlante 2
+
+            Parte parterotar3 = new Parte(shader, "parte155", origenparterotar3);  //florero 1
+
+            Parte parterotar4 = new Parte(shader, "parte177", origenparterotar4);  //florero 2 encima del parlante
+
 
             Punto origencara = new Punto(0.0f, 0.0f, 0.0f);
 
@@ -241,11 +291,63 @@ namespace ProgGraficaTareas
             parterotar2.add("3", caraeqatras2rota);
             parterotar2.add("4", caraeqdelante2rota);
 
+
+            Punto centrodemasa = new Punto(0.0f, 0.0f, 0.0f);
+
+            Cara baseFlorero3 = new Cara(shader, "Base Florero", centrodemasa);
+            baseFlorero3.add("1", new Punto(0.01f, 0.0f, 0.01f));
+            baseFlorero3.add("2", new Punto(0.03f, 0.10f, 0.01f));
+            baseFlorero3.add("3", new Punto(0.03f, 0.15f, 0.01f));
+            baseFlorero3.add("4", new Punto(-0.04f, 0.15f, 0.01f));
+            baseFlorero3.add("5", new Punto(-0.04f, 0.10f, 0.01f));
+            baseFlorero3.add("6", new Punto(-0.01f, 0.0f,  0.01f));
+
+
+            Cara baseFlorero33 = new Cara(shader, "Base Florero 2", centrodemasa);
+            baseFlorero33.add("1", new Punto(0.01f, 0.0f, -0.03f));
+            baseFlorero33.add("2", new Punto(0.03f, 0.10f, -0.03f));
+            baseFlorero33.add("3", new Punto(0.03f, 0.15f, -0.03f));
+            baseFlorero33.add("4", new Punto(-0.04f, 0.15f, -0.03f));
+            baseFlorero33.add("5", new Punto(-0.04f, 0.10f, -0.03f));
+            baseFlorero33.add("6", new Punto(-0.01f, 0.0f, -0.03f));
+
+            Cara basesup3 = new Cara(shader, "Base sup Florero", centrodemasa);
+            basesup3.add("1", new Punto(0.03f, 0.15f, 0.01f));
+            basesup3.add("2", new Punto(-0.04f, 0.15f, 0.01f));
+            basesup3.add("3", new Punto(-0.04f, 0.15f, -0.03f));
+            basesup3.add("4", new Punto(0.03f, 0.15f, -0.03f));
            
-            objetopractica.add("1", parterotar);
-            objetopractica.add("2", parterotar2);
+
+            Cara baseinf3 = new Cara(shader, "Base inf Florero", centrodemasa);
+            baseinf3.add("1", new Punto(0.01f, 0.0f, 0.01f));
+            baseinf3.add("2", new Punto(-0.01f, 0.0f, 0.01f));
+            baseinf3.add("3", new Punto(-0.01f, 0.0f, -0.03f));
+            baseinf3.add("4", new Punto(0.01f, 0.0f, -0.03f));
+           
+
+            parterotar3.add("1", baseFlorero3);
+            parterotar3.add("2", baseFlorero33);
+            parterotar3.add("3", basesup3);
+            parterotar3.add("4", baseinf3);
+
+            parterotar4.add("1", baseFlorero3);
+            parterotar4.add("2", baseFlorero33);
+            parterotar4.add("3", basesup3);
+            parterotar4.add("4", baseinf3);
+
+
+
+            objetopractica.add("1", parterotar);  //parlante
+
+            objetopractica2.add("1", parterotar2); //parlante
+            objetopractica2.add("2", parterotar4); //florero
+
+
+            objetopractica3.add("1", parterotar3); //florero
 
             escenaprueva.add("1", objetopractica);
+            escenaprueva.add("2", objetopractica2);
+            escenaprueva.add("3", objetopractica3);
 
 
             Utilidades utils2 = new Utilidades();
@@ -308,20 +410,93 @@ namespace ProgGraficaTareas
            this.escenaDeserializada.setShader(shader);
 
             _camera = new Camera(Vector3.UnitZ, Size.X / (float)Size.Y);
-           
-           
+
+            Accion acto1 = new Accion("act1", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+            Accion acto2 = new Accion("act2", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+            Accion acto3 = new Accion("act3", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+            Accion acto4 = new Accion("act4", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+            Accion acto5 = new Accion("act5", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+            Accion acto6 = new Accion("act", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+            Accion acto7 = new Accion("act7", "rotar", 20, new Punto(0.0f, 0.00f, 1.0f));
+            Accion acto8 = new Accion("act8", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+            Accion acto9 = new Accion("act9", "escalar", 5, new Punto(1.0f, 1.5f, 1.0f));
+            Accion acto10 = new Accion("act10", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+            Accion acto11 = new Accion("act11", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+            Accion acto12 = new Accion("act12", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+
+            this.directoranimacion = new Animacion("ani1", 200f, 20f);
+            this.directoranimacion.add("1", acto1);
+            this.directoranimacion.add("2", acto2);
+            this.directoranimacion.add("3", acto3);
+            this.directoranimacion.add("4", acto4);
+            this.directoranimacion.add("5", acto5);
+            this.directoranimacion.add("6", acto6);
+            this.directoranimacion.add("7", acto7);
+            this.directoranimacion.add("8", acto8);
+            this.directoranimacion.add("9", acto9);
+            this.directoranimacion.add("10", acto10);
+            this.directoranimacion.add("11", acto11);
+            this.directoranimacion.add("12", acto12);
+            this.directoranimacion.add("13", acto1);
+            this.directoranimacion.add("14", acto2);
+            this.directoranimacion.add("15", acto3);
+            this.directoranimacion.add("16", acto4);
+            this.directoranimacion.add("17", acto5);
+            this.directoranimacion.add("18", acto6);
+            this.directoranimacion.add("19", acto7);
+            this.directoranimacion.add("20", acto8);
+            this.directoranimacion.add("21", acto9);
+            this.directoranimacion.add("22", acto10);
+            this.directoranimacion.add("23", acto11);
+            this.directoranimacion.add("24", acto12);
         }
-        public void animacion(Escena escena) {
-            Animacion ani = new Animacion(1000f,2f);
-          
-           while(true)
+        public void animacion(Escena escena)
+        {
+            int i = 0;
+            Animacion ani = new Animacion("ani0", 200, 2f);
+            try
             {
-               ani.Animar(escena);
-                Console.WriteLine("hilo corriendo");
-            Thread.Sleep(100);
+                while (mythreadbool == true && false)
+                {
+                    ani.Animar(escena);
+                    Console.WriteLine("hilo corriendo");
+
+
+                    Thread.Sleep(100);
+                }
+
+                foreach (KeyValuePair<string, Accion> k in this.directoranimacion.acciones)
+                {
+                    ani.AnimarByInstru2(escena.get("1").get("1"), k.Value);
+                    Thread.Sleep((int)this.directoranimacion.time);
+                    Console.WriteLine("hilo corriendo desde acctions");
+                }
+
+                //con un while para poder detenerlo
+                var enumerator = this.directoranimacion.acciones.GetEnumerator();
+
+              /*  while (true)
+                {
+                    if (enumerator.MoveNext() )
+                    {
+                        var keyValue = enumerator.Current;
+                        var clave = keyValue.Key;
+                        var accion = keyValue.Value;
+
+                        // Tu lógica aquí
+                        ani.AnimarByInstru(escena, accion);
+                        Thread.Sleep((int)this.directoranimacion.time);
+                        Console.WriteLine("hilo corriendo desde acciones while normal ");
+                    }
+                    else { break; }
+                }*/
+
 
             }
-           
+            catch (ThreadAbortException)
+            {
+                Console.WriteLine("Hilo terminado.");
+            }
         }
         protected override void OnRenderFrame(FrameEventArgs args)
         {
@@ -347,11 +522,11 @@ namespace ProgGraficaTareas
             // this.objeto3.Dibujar();
 
            //    this.escena1.dibujar(); 
-           //this.escenaDeserializada.dibujar();
+        //   this.escenaDeserializada.dibujar();
 
             // this.parterotar.dibujar(new Punto(0.0f, 0.0f, 0.0f));
 
-            escenaprueva.dibujar();
+           // escenaprueva.dibujar();
             escenaDeserializada2.dibujar();
 
 
@@ -396,14 +571,7 @@ namespace ProgGraficaTareas
             {
                 _camera.Position += _camera.Front * cameraSpeed * (float)e.Time;
 
-                if (!animated) {
-                    this.animarthread = new Thread(() => animacion(escenaDeserializada2));
-                    this.animarthread.Start(); 
-                    animated = true; }
-
               // escenaprueva.escalar(1.0f, 1.5f, 1.0f);
-
-
                 //  Parte newp = escenaDeserializada.vertices.First().Value.vertices.First().Value;
 
 
@@ -419,13 +587,68 @@ namespace ProgGraficaTareas
                 //    newp2.trasladar(-1.0f, 0.0f, 0.0f);
 
                Objeto newOb24 = escenaDeserializada2.vertices.First().Value;
-                newOb24.rotar(60f,0.0f,0.0f,1.0f);
+            //    newOb24.rotar(60f,0.0f,0.0f,1.0f);
 
             }
 
             if (input.IsKeyDown(Keys.S))
             {
                 _camera.Position -= _camera.Front * cameraSpeed * (float)e.Time; // Backwards
+            }
+            if (input.IsKeyDown(Keys.T) && !mythreadbool)
+            {
+                if (!mythreadbool)
+                {
+                    this.animarthread = new Thread(() => animacion(escenaDeserializada2));
+                    this.animarthread.Start();
+                    mythreadbool = true;
+                }
+
+            }
+            if (input.IsKeyDown(Keys.N) && input.IsKeyDown(Keys.Y))
+            {
+                escenaDeserializada2.get("2").get("1").rotar(5, 1.0f, 0.0f, 0.0f);
+            }
+            if (input.IsKeyDown(Keys.N) && input.IsKeyDown(Keys.H))
+            {
+                escenaDeserializada2.get("2").get("1").rotar(5, 0.0f, 1.0f, 0.0f);
+            }
+            if (input.IsKeyDown(Keys.N) && input.IsKeyDown(Keys.J))
+            {
+                escenaDeserializada2.get("2").get("1").rotar(5, 0.0f, 0.0f, 1.0f);
+            }
+
+            if (input.IsKeyDown(Keys.B) && input.IsKeyDown(Keys.Y))
+            {
+                escenaDeserializada2.rotar(5, 1.0f, 0.0f, 0.0f);
+            }
+            if (input.IsKeyDown(Keys.B) && input.IsKeyDown(Keys.H))
+            {
+                escenaDeserializada2.rotar(5, 0.0f, 1.0f, 0.0f);
+            }
+            if (input.IsKeyDown(Keys.B) && input.IsKeyDown(Keys.J))
+            {
+                escenaDeserializada2.rotar(5, 0.0f, 0.0f, 1.0f);
+            }
+
+            if (input.IsKeyDown(Keys.M) && input.IsKeyDown(Keys.Y))
+            {
+                escenaDeserializada2.get("2").rotar(5, 1.0f, 0.0f, 0.0f);
+            }
+            if (input.IsKeyDown(Keys.M) && input.IsKeyDown(Keys.H))
+            {
+                escenaDeserializada2.get("2").rotar(5, 0.0f, 1.0f, 0.0f);
+            }
+            if (input.IsKeyDown(Keys.M) && input.IsKeyDown(Keys.J))
+            {
+                escenaDeserializada2.get("2").rotar(5, 0.0f, 0.0f, 1.0f);
+            }
+
+
+
+            if (input.IsKeyDown(Keys.O))
+            {
+                escenaDeserializada2.get("1").get("2").rotar(5, 0.0f, 0.0f, 1.0f);
             }
             if (input.IsKeyDown(Keys.A))
             {
