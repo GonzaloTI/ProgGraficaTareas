@@ -453,25 +453,59 @@ namespace ProgGraficaTareas
         public void animacion(Escena escena)
         {
             int i = 0;
+            float t = 0.0f;
+            float x = 0.0f;
+            float y = 0.0f;
+            double g = 9.8; // m/s^2
+            double h = 10;
+
+            float angulo = 75f;
+            float vel = 20f;  //20 m/s
+            float Vox;
+            float Voy;
+
+            float alfa = 0.0003f;
+
+            Vox =  vel * (float)Math.Cos(angulo);
+            Vox = Math.Abs(Vox);
+            Voy = vel * (float)Math.Sin(angulo);
+            Voy = Math.Abs(Voy);
+
+            Console.WriteLine("V0x = " + Vox +" " + "V0y = " + Voy);
+
             Animacion ani = new Animacion("ani0", 200, 2f);
             try
             {
-                while (mythreadbool == true && false)
+                while (mythreadbool == true )
                 {
-                    ani.Animar(escena);
+
+                    // Si lanzas una pelota desde una altura h0 = 10m con una velocidad inicial v0 = 20m / s y un ángulo de 45
+
+                    x = (float)Vox * t;  // x(t) = V0x * t
+                    y = (float)h + (float)Voy * t - ((float)0.5 * (float)g * t * t);  //y(t)= h * V0y * t -1/2 * g * (t^2)
+ 
+                    
+                    Console.WriteLine("x = " + x.ToString() + " y= " + y.ToString());
+                 
+                    
+                    x = x * alfa;
+                    y= y * alfa;
+
+                   
+                    //  ani.Animar(escena);
                     Console.WriteLine("hilo corriendo");
-
-
+                    escena.get("1").get("1").trasladar(x,y,0.0f);
+                    t += 0.1f;
                     Thread.Sleep(100);
                 }
 
-                foreach (KeyValuePair<string, Accion> k in this.directoranimacion.acciones)
+           /*     foreach (KeyValuePair<string, Accion> k in this.directoranimacion.acciones)
                 {
                     ani.AnimarByInstru2(escena.get("1").get("1"), k.Value);
                     Thread.Sleep((int)this.directoranimacion.time);
                     Console.WriteLine("hilo corriendo desde acctions");
                 }
-
+           */
                 //con un while para poder detenerlo
                 var enumerator = this.directoranimacion.acciones.GetEnumerator();
 

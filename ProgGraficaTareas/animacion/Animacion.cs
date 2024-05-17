@@ -28,8 +28,15 @@ namespace ProgGraficaTareas.animacion
 
         public void Animar(Escena escena)
         {
+
+
+          
             //escena.trasladar(0.001f, 0.001f, 0.001f);
             escena.rotar(5, 1.0f, 0.0f, 0.0f);
+
+
+
+
         }
         public void AnimarByInstru(Escena escena, Accion action)
         {
