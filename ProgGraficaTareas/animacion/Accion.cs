@@ -13,6 +13,8 @@ namespace ProgGraficaTareas.animacion
         public Punto pos { get; set; }
         public float angulo { get; set; }
 
+        public Parte parte { get; set; }
+
         public Accion(String nombre)
         {
             this.nombre = nombre;
@@ -20,9 +22,10 @@ namespace ProgGraficaTareas.animacion
             this.angulo = 0.0f;
         }
         public Accion() { }
-        public Accion(String nombre, String trans, float a, Punto pos)
+        public Accion(String nombre,Parte part, String trans, float a, Punto pos)
         {
             this.nombre = nombre;
+            this.parte = part;
             this.transformacion = trans;
             this.pos = new Punto(pos.x, pos.y, pos.z);
             this.angulo = a;

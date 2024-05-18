@@ -97,9 +97,13 @@ namespace ProgGraficaTareas
         {
             this.model = this.model* Matrix4.CreateTranslation(x, y, z);
         }
+        public void trasladarXYZ(float x, float y, float z)
+        {
+            this.model = Matrix4.CreateTranslation(x, y, z); 
+        }
         public void rotar(float a ,float x,float y,float z)
         {
-            Console.WriteLine( "parte" + this.origen.x.ToString() + "x , " + this.origen.y.ToString() + "y , " + this.origen.z.ToString() + "z , ");
+           // Console.WriteLine( "parte" + this.origen.x.ToString() + "x , " + this.origen.y.ToString() + "y , " + this.origen.z.ToString() + "z , ");
 
             if (x > 0) rot = rot * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(a));
 

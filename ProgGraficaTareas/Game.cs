@@ -24,7 +24,7 @@ namespace ProgGraficaTareas
         Thread animarthread;
 
         bool mythreadbool = false;
-        Animacion directoranimacion;
+        Animacion animacion1;
 
         private int vertexBufferObject;
         private int vertexArrayObject;
@@ -227,12 +227,16 @@ namespace ProgGraficaTareas
 
             Punto origenobjeto3 = new Punto(0.0f, 0.0f, 0.0f);
 
+            Punto origenobjeto4 = new Punto(-3.0f, 0.0f, 0.0f);
 
-            Objeto objetopractica = new Objeto(shader,"objetoparlante1", origenobjeto);
 
-            Objeto objetopractica2 = new Objeto(shader, "objetoparlante2", origenobjeto2);
+            Objeto objetopractica = new Objeto(shader,"objetoparlante1", origenobjeto);   //parlante solo derecha
 
-            Objeto objetopractica3 = new Objeto(shader, "objetoflorero", origenobjeto3);
+            Objeto objetopractica2 = new Objeto(shader, "objetoparlante2", origenobjeto2); //partante mas florero izquierda
+
+            Objeto objetopractica3 = new Objeto(shader, "objetoflorero", origenobjeto3);  //florero
+
+            Objeto objetopractica4 = new Objeto(shader, "objetoflorero", origenobjeto4); //pelota
 
 
             Punto origenparterota = new Punto(0.0f, 0.0f, 0.0f);
@@ -241,8 +245,9 @@ namespace ProgGraficaTareas
 
             Punto origenparterotar3 = new Punto(0.15f, 0.10f, -0.10f);
 
-            Punto origenparterotar4 = new Punto(0.0f, 0.1f, -0.05f);
+            Punto origenparterotar4 = new Punto(0.0f, 0.1f, -0.005f);
 
+            Punto origenparterotar5 = new Punto(0.0f, 0.0f, 0.0f);
 
             Parte parterotar = new Parte(shader, "parte123", origenparterota);  //parlante 1
 
@@ -252,8 +257,9 @@ namespace ProgGraficaTareas
 
             Parte parterotar4 = new Parte(shader, "parte177", origenparterotar4);  //florero 2 encima del parlante
 
+            Parte parterotar5 = new Parte(shader, "parte177", origenparterotar5);  // pelota cuadrada
 
-            Punto origencara = new Punto(0.0f, 0.0f, 0.0f);
+            Punto origencara = new Punto(0.0f, 0.0f, 0.0f); // centro de masa
 
             Cara caraeqdelante2rota = new Cara(shader, "Base equipo", origencara);
             caraeqdelante2rota.add("1", new Punto(-0.05f, -0.1f, 0.0f));
@@ -336,18 +342,57 @@ namespace ProgGraficaTareas
             parterotar4.add("4", baseinf3);
 
 
+            //pelota
+            Punto centrodemasapelota = new Punto(0.0f, 0.0f, 0.0f); // centro de masa pelota cuadrada
+
+            Cara caraeqdelantepelota = new Cara(shader, "Base equipo", centrodemasapelota);
+            caraeqdelantepelota.add("1", new Punto(-0.05f, -0.05f, 0.05f));
+            caraeqdelantepelota.add("2", new Punto(0.05f, -0.05f, 0.05f));
+            caraeqdelantepelota.add("3", new Punto(0.05f, 0.05f, 0.05f));
+            caraeqdelantepelota.add("4", new Punto(-0.05f, 0.05f, 0.05f));
+
+
+            Cara caraeqatraspelota = new Cara(shader, "Base equipo 2", centrodemasapelota);
+            caraeqatraspelota.add("1", new Punto(-0.05f, -0.05f, -0.05f));
+            caraeqatraspelota.add("2", new Punto(0.05f, -0.05f, -0.05f));
+            caraeqatraspelota.add("3", new Punto(0.05f, 0.05f, -0.05f));
+            caraeqatraspelota.add("4", new Punto(-0.05f, 0.05f, -0.05f));
+
+            Cara carasupppelota = new Cara(shader, "superior", centrodemasapelota);
+            carasupppelota.add("1", new Punto(0.05f, 0.05f, 0.05f));
+            carasupppelota.add("2", new Punto(-0.05f, 0.05f, 0.05f));
+            carasupppelota.add("4", new Punto(-0.05f, 0.05f, -0.05f));
+            carasupppelota.add("3", new Punto(0.05f, 0.05f, -0.05f));
+
+
+            Cara carainfpelota = new Cara(shader, "inferior", centrodemasapelota);
+            carainfpelota.add("1", new Punto(-0.05f, -0.05f, 0.05f));
+            carainfpelota.add("2", new Punto(0.05f, -0.05f, 0.05f));
+            carainfpelota.add("4", new Punto(0.05f, -0.05f, -0.05f));
+            carainfpelota.add("3", new Punto(-0.05f, -0.05f, -0.05f));
+
+            parterotar5.add("1", caraeqdelantepelota);
+            parterotar5.add("2", caraeqatraspelota);
+            parterotar5.add("3", carasupppelota);
+            parterotar5.add("4", carainfpelota);
+
+
 
             objetopractica.add("1", parterotar);  //parlante
 
-            objetopractica2.add("1", parterotar2); //parlante
+            objetopractica2.add("1", parterotar2); //parlante // parlante mas el florero forman un objeto
             objetopractica2.add("2", parterotar4); //florero
 
 
             objetopractica3.add("1", parterotar3); //florero
 
-            escenaprueva.add("1", objetopractica);
-            escenaprueva.add("2", objetopractica2);
-            escenaprueva.add("3", objetopractica3);
+            objetopractica4.add("1", parterotar5);  // objeto pelota
+
+            escenaprueva.add("1", objetopractica);   //parlante solo
+            escenaprueva.add("2", objetopractica2);  //parlante // parlante mas el florero forman un objeto
+            escenaprueva.add("3", objetopractica3);  //florero
+
+            escenaprueva.add("4", objetopractica4); //pelota
 
 
             Utilidades utils2 = new Utilidades();
@@ -411,127 +456,15 @@ namespace ProgGraficaTareas
 
             _camera = new Camera(Vector3.UnitZ, Size.X / (float)Size.Y);
 
-            Accion acto1 = new Accion("act1", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
-            Accion acto2 = new Accion("act2", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
-            Accion acto3 = new Accion("act3", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
-            Accion acto4 = new Accion("act4", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
-            Accion acto5 = new Accion("act5", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
-            Accion acto6 = new Accion("act", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
-            Accion acto7 = new Accion("act7", "rotar", 20, new Punto(0.0f, 0.00f, 1.0f));
-            Accion acto8 = new Accion("act8", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
-            Accion acto9 = new Accion("act9", "escalar", 5, new Punto(1.0f, 1.5f, 1.0f));
-            Accion acto10 = new Accion("act10", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
-            Accion acto11 = new Accion("act11", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
-            Accion acto12 = new Accion("act12", "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+            Accion acto1 = new Accion("act1", escenaDeserializada2.get("1").get("1"), "trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
+            Accion acto2 = new Accion("act2", escenaDeserializada2.get("1").get("1"),"trasladar", 5, new Punto(0.01f, 0.01f, 0.01f));
 
-            this.directoranimacion = new Animacion("ani1", 200f, 20f);
-            this.directoranimacion.add("1", acto1);
-            this.directoranimacion.add("2", acto2);
-            this.directoranimacion.add("3", acto3);
-            this.directoranimacion.add("4", acto4);
-            this.directoranimacion.add("5", acto5);
-            this.directoranimacion.add("6", acto6);
-            this.directoranimacion.add("7", acto7);
-            this.directoranimacion.add("8", acto8);
-            this.directoranimacion.add("9", acto9);
-            this.directoranimacion.add("10", acto10);
-            this.directoranimacion.add("11", acto11);
-            this.directoranimacion.add("12", acto12);
-            this.directoranimacion.add("13", acto1);
-            this.directoranimacion.add("14", acto2);
-            this.directoranimacion.add("15", acto3);
-            this.directoranimacion.add("16", acto4);
-            this.directoranimacion.add("17", acto5);
-            this.directoranimacion.add("18", acto6);
-            this.directoranimacion.add("19", acto7);
-            this.directoranimacion.add("20", acto8);
-            this.directoranimacion.add("21", acto9);
-            this.directoranimacion.add("22", acto10);
-            this.directoranimacion.add("23", acto11);
-            this.directoranimacion.add("24", acto12);
+            this.animacion1 = new Animacion("ani1", 10f, 20f,escenaDeserializada2);
+            this.animacion1.add("1", acto1);
+            this.animacion1.add("2", acto2);
+  
         }
-        public void animacion(Escena escena)
-        {
-            int i = 0;
-            float t = 0.0f;
-            float x = 0.0f;
-            float y = 0.0f;
-            double g = 9.8; // m/s^2
-            double h = 10;
-
-            float angulo = 75f;
-            float vel = 20f;  //20 m/s
-            float Vox;
-            float Voy;
-
-            float alfa = 0.0003f;
-
-            Vox =  vel * (float)Math.Cos(angulo);
-            Vox = Math.Abs(Vox);
-            Voy = vel * (float)Math.Sin(angulo);
-            Voy = Math.Abs(Voy);
-
-            Console.WriteLine("V0x = " + Vox +" " + "V0y = " + Voy);
-
-            Animacion ani = new Animacion("ani0", 200, 2f);
-            try
-            {
-                while (mythreadbool == true )
-                {
-
-                    // Si lanzas una pelota desde una altura h0 = 10m con una velocidad inicial v0 = 20m / s y un ángulo de 45
-
-                    x = (float)Vox * t;  // x(t) = V0x * t
-                    y = (float)h + (float)Voy * t - ((float)0.5 * (float)g * t * t);  //y(t)= h * V0y * t -1/2 * g * (t^2)
- 
-                    
-                    Console.WriteLine("x = " + x.ToString() + " y= " + y.ToString());
-                 
-                    
-                    x = x * alfa;
-                    y= y * alfa;
-
-                   
-                    //  ani.Animar(escena);
-                    Console.WriteLine("hilo corriendo");
-                    escena.get("1").get("1").trasladar(x,y,0.0f);
-                    t += 0.1f;
-                    Thread.Sleep(100);
-                }
-
-           /*     foreach (KeyValuePair<string, Accion> k in this.directoranimacion.acciones)
-                {
-                    ani.AnimarByInstru2(escena.get("1").get("1"), k.Value);
-                    Thread.Sleep((int)this.directoranimacion.time);
-                    Console.WriteLine("hilo corriendo desde acctions");
-                }
-           */
-                //con un while para poder detenerlo
-                var enumerator = this.directoranimacion.acciones.GetEnumerator();
-
-              /*  while (true)
-                {
-                    if (enumerator.MoveNext() )
-                    {
-                        var keyValue = enumerator.Current;
-                        var clave = keyValue.Key;
-                        var accion = keyValue.Value;
-
-                        // Tu lógica aquí
-                        ani.AnimarByInstru(escena, accion);
-                        Thread.Sleep((int)this.directoranimacion.time);
-                        Console.WriteLine("hilo corriendo desde acciones while normal ");
-                    }
-                    else { break; }
-                }*/
-
-
-            }
-            catch (ThreadAbortException)
-            {
-                Console.WriteLine("Hilo terminado.");
-            }
-        }
+       
         protected override void OnRenderFrame(FrameEventArgs args)
         {
           base.OnRenderFrame(args);
@@ -631,13 +564,9 @@ namespace ProgGraficaTareas
             }
             if (input.IsKeyDown(Keys.T) && !mythreadbool)
             {
-                if (!mythreadbool)
-                {
-                    this.animarthread = new Thread(() => animacion(escenaDeserializada2));
-                    this.animarthread.Start();
-                    mythreadbool = true;
-                }
-
+                Director dir = new Director();
+                dir.add(this.animacion1);
+                dir.start();
             }
             if (input.IsKeyDown(Keys.N) && input.IsKeyDown(Keys.Y))
             {
